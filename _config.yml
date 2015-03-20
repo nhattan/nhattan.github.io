@@ -1,0 +1,13 @@
+# Site settings
+title: Path to enlightenment
+email: nhattan2012@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  Ruby on Rails and my concerns about the new tech trends in the world.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "https://nhattan.github.io" # the base hostname & protocol for your site
+twitter_username: tanyosemite
+github_username:  nhattan
+name: Nhat Tan
+
+# Build settings
+markdown: kramdown
