@@ -6,9 +6,42 @@
 </description>
     <link>https://nhattan.github.io/</link>
     <atom:link href="https://nhattan.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 21 Mar 2015 17:45:19 +0700</pubDate>
-    <lastBuildDate>Sat, 21 Mar 2015 17:45:19 +0700</lastBuildDate>
+    <pubDate>Fri, 26 Jun 2015 16:32:53 +0700</pubDate>
+    <lastBuildDate>Fri, 26 Jun 2015 16:32:53 +0700</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Remote pagination with kaminari</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/amatsuda/kaminari&quot;&gt;Kaminari&lt;/a&gt; is an awesome gem to paginate your list view&lt;/p&gt;
+
+&lt;p&gt;According to the document to make ajax links you just add “remote: true” like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;%=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;paginate&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@users&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;remote&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Crazy simple but it doesn’t work in my case! Maybe the document has not been updated yet.&lt;/p&gt;
+
+&lt;p&gt;I have to add this file to make it works:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;c1&quot;&gt;# index.js.erb&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;#users&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&amp;lt;%= escape_javascript render(@users) %&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;#paginator&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&amp;lt;%= escape_javascript(paginate(@users, remote: true)) %&amp;gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can see the view details in this example:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/amatsuda/kaminari_example/tree/ajax/app/views/users&quot;&gt;Kaminari example&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Hope this can help you!&lt;/p&gt;
+</description>
+        <pubDate>Fri, 26 Jun 2015 23:10:00 +0700</pubDate>
+        <link>https://nhattan.github.io/rails/pagination/2015/06/26/remote-pagination-with-kaminari.html</link>
+        <guid isPermaLink="true">https://nhattan.github.io/rails/pagination/2015/06/26/remote-pagination-with-kaminari.html</guid>
+        
+        
+        <category>rails</category>
+        
+        <category>pagination</category>
+        
+      </item>
     
       <item>
         <title>Deploy Rails app to VPS using Capistrano</title>
