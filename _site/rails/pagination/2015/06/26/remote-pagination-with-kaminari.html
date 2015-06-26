@@ -6,12 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Path to enlightenment</title>
-  <meta name="description" content="Ruby on Rails and my concerns about the new tech trends in the world.
-">
+  <title>Remote pagination with kaminari</title>
+  <meta name="description" content="Kaminari is an awesome gem to paginate your list view">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://nhattan.github.io/">
+  <link rel="canonical" href="https://nhattan.github.io/rails/pagination/2015/06/26/remote-pagination-with-kaminari.html">
   <link rel="alternate" type="application/rss+xml" title="Path to enlightenment" href="https://nhattan.github.io/feed.xml" />
 </head>
 
@@ -55,37 +54,35 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="home">
+        <div class="post">
 
-  <h1 class="page-heading">Posts</h1>
+  <header class="post-header">
+    <h1 class="post-title">Remote pagination with kaminari</h1>
+    <p class="post-meta">Jun 26, 2015</p>
+  </header>
 
-  <ul class="post-list">
-    
-      <li>
-        <span class="post-meta">Jun 26, 2015</span>
+  <article class="post-content">
+    <p><a href="https://github.com/amatsuda/kaminari">Kaminari</a> is an awesome gem to paginate your list view</p>
 
-        <h2>
-          <a class="post-link" href="/rails/pagination/2015/06/26/remote-pagination-with-kaminari.html">Remote pagination with kaminari</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Mar 21, 2015</span>
+<p>According to the document to make ajax links you just add “remote: true” like this:</p>
 
-        <h2>
-          <a class="post-link" href="/rails/deploy/2015/03/21/deploy-to-vps-using-capistrano.html">Deploy Rails app to VPS using Capistrano</a>
-        </h2>
-      </li>
-    
-      <li>
-        <span class="post-meta">Mar 21, 2015</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;%=</span> <span class="n">paginate</span> <span class="vi">@users</span><span class="p">,</span> <span class="ss">remote</span><span class="p">:</span> <span class="kp">true</span> <span class="o">%&gt;</span></code></pre></div>
 
-        <h2>
-          <a class="post-link" href="/rails/upload/2015/03/21/upload-multiple-files-to-s3-with-refile.html">Upload multiple files to S3 with Refile</a>
-        </h2>
-      </li>
-    
-  </ul>
+<p>Crazy simple but it doesn’t work in my case! Maybe the document has not been updated yet.</p>
+
+<p>I have to add this file to make it works:</p>
+
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># index.js.erb</span>
+<span class="err">$</span><span class="p">(</span><span class="s2">&quot;#users&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript render(@users) %&gt;&quot;</span><span class="p">);</span>
+<span class="err">$</span><span class="p">(</span><span class="s2">&quot;#paginator&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(paginate(@users, remote: true)) %&gt;&quot;</span><span class="p">)</span></code></pre></div>
+
+<p>You can see the view details in this example:</p>
+
+<p><a href="https://github.com/amatsuda/kaminari_example/tree/ajax/app/views/users">Kaminari example</a></p>
+
+<p>Hope this can help you!</p>
+
+  </article>
 
 </div>
 
