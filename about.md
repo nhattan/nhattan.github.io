@@ -4,8 +4,8 @@ title: About
 permalink: /about/
 ---
 
-Tan is an young, enthusiastic developer. He's always searching for the new tech trends in the world then consumes them.
+Tan is a young, enthusiastic developer. He's always searching for the new techs in the world then consumes them.
 
-He's interesting in backend development by Ruby on Rails. He also contributes for some open source projects in ruby.
+He's interesting in web development with Ruby on Rails. He also contributes for some open source projects with ruby.
 
-He's currently working as a developer in Framgia Vietnam.
+He's working as a web developer at [Global Smart Solutions & Twentyci Vietnam](https://www.facebook.com/gss.outsourcing).
