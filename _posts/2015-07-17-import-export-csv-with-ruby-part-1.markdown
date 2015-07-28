@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Import, export CSV with Ruby"
+title:  "Import, export CSV with Ruby (part 1)"
 date:   2015-07-17 23:22:00
 categories: rails csv
 ---
@@ -11,10 +11,10 @@ It's very simple and I'll show you how to make it just with Ruby CSV library.
 
 # Say hi to Export
 
-## route.rb
+## Route
 
 {% highlight ruby %}
-  resources :csv_imports, only: [:create]
+  resources :csv_exports, only: [:create]
 {% endhighlight %}
 
 ## Controller
@@ -58,20 +58,36 @@ end
 ## View
 
 {% highlight ruby %}
+# trigger button
+<%= link_to "Export", "#", class: %w(btn search-form-toggle), data: {target: "export-form"} %>
+{% endhighlight %}
+
+{% highlight javascript %}
+// js for search-form-toggle
+$(function() {
+  return $(".search-form-toggle").click(function(e) {
+    var target;
+    e.preventDefault();
+    target = $(this).attr("data-target");
+    return $("#" + target).slideToggle("fast");
+  });
+});
+{% endhighlight %}
+
+{% highlight ruby %}
 # _export_form.html.erb
-<%= form_tag csv_exports_path, method: :post, multipart: true, class: "search-form" do %>
+<%= form_tag csv_exports_path, method: :post, multipart: true, id: "export-form", class: "search-form" do %>
   <%= hidden_field_tag :model, model %>
   <% @search = model.search params[:q] %>
   <%= hidden_field_tag :object_ids, @search.result.ids %>
 
   <div class="text-center">
-    <%= submit_tag I18n.t("views.buttons.export"), class: "btn btn-primary" %>
+    <%= submit_tag "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>
-
 {% endhighlight %}
 
-Here, I'm using ransack as object searching so you can see:
+Here, I'm using [ransack](https://github.com/activerecord-hackery/ransack) as object searching so you can see:
 
 {% highlight ruby %}
 <% @search = model.search params[:q] %>
@@ -89,4 +105,6 @@ Because when you import, it means that you create new record and you don't need 
 
 # Say hi to Import
 
-It's easy, right? See you next week with Importing part.
+It's easy, right? See part 2 here:
+
+[Import, export CSV with Ruby (part 2)](/rails/csv/2015/07/29/import-export-csv-with-ruby-part-2.html)
