@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Import, export CSV with Ruby</title>
+  <title>Import, export CSV with Ruby (part 1)</title>
   <meta name="description" content="Import, export CSV is one of the most popular feature that we usually need for our project.">
 
   <link rel="stylesheet" href="/css/main.css">
-  <link rel="canonical" href="https://nhattan.github.io/rails/csv/2015/07/18/import-export-csv-with-ruby.html">
+  <link rel="canonical" href="https://nhattan.github.io/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html">
   <link rel="alternate" type="application/rss+xml" title="Path to enlightenment" href="https://nhattan.github.io/feed.xml" />
 </head>
 
@@ -57,7 +57,7 @@
         <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Import, export CSV with Ruby</h1>
+    <h1 class="post-title">Import, export CSV with Ruby (part 1)</h1>
     <p class="post-meta">Jul 18, 2015</p>
   </header>
 
@@ -68,9 +68,9 @@
 
 <h1 id="say-hi-to-export">Say hi to Export</h1>
 
-<h2 id="routerb">route.rb</h2>
+<h2 id="route">Route</h2>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">resources</span> <span class="ss">:csv_imports</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:create</span><span class="o">]</span></code></pre></div>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">resources</span> <span class="ss">:csv_exports</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:create</span><span class="o">]</span></code></pre></div>
 
 <h2 id="controller">Controller</h2>
 
@@ -110,18 +110,31 @@
 
 <h2 id="view">View</h2>
 
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># trigger button</span>
+<span class="o">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Export&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="sx">%w(btn search-form-toggle)</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span><span class="ss">target</span><span class="p">:</span> <span class="s2">&quot;export-form&quot;</span><span class="p">}</span> <span class="o">%&gt;</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// js for search-form-toggle</span>
+<span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.search-form-toggle&quot;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">target</span><span class="p">;</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+    <span class="nx">target</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;data-target&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#&quot;</span> <span class="o">+</span> <span class="nx">target</span><span class="p">).</span><span class="nx">slideToggle</span><span class="p">(</span><span class="s2">&quot;fast&quot;</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span></code></pre></div>
+
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># _export_form.html.erb</span>
-<span class="o">&lt;</span><span class="sx">%= form_tag csv_exports_path, method: :post, multipart: true, class: &quot;search-form&quot; do %&gt;</span>
+<span class="o">&lt;</span><span class="sx">%= form_tag csv_exports_path, method: :post, multipart: true, id: &quot;export-form&quot;, class: &quot;search-form&quot; do %&gt;</span>
 <span class="sx">  &lt;%=</span> <span class="n">hidden_field_tag</span> <span class="ss">:model</span><span class="p">,</span> <span class="n">model</span> <span class="sx">%&gt;</span>
 <span class="sx">  &lt;% @search = model.search params[:q] %&gt;</span>
   <span class="o">&lt;</span><span class="sx">%= hidden_field_tag :object_ids, @search.result.ids %&gt;</span>
 
 <span class="sx">  &lt;div class=</span><span class="s2">&quot;text-center&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;%=</span> <span class="n">submit_tag</span> <span class="no">I18n</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s2">&quot;views.buttons.export&quot;</span><span class="p">),</span> <span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;btn btn-primary&quot;</span> <span class="sx">%&gt;</span>
+    <span class="o">&lt;%=</span> <span class="n">submit_tag</span> <span class="s2">&quot;Submit&quot;</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;btn btn-primary&quot;</span> <span class="sx">%&gt;</span>
 <span class="sx">  &lt;/div&gt;</span>
 <span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span></code></pre></div>
 
-<p>Here, I’m using ransack as object searching so you can see:</p>
+<p>Here, I’m using <a href="https://github.com/activerecord-hackery/ransack">ransack</a> as object searching so you can see:</p>
 
 <div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="sx">% @search </span><span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">search</span> <span class="n">params</span><span class="o">[</span><span class="ss">:q</span><span class="o">]</span> <span class="o">%&gt;</span></code></pre></div>
 
@@ -135,7 +148,9 @@
 
 <h1 id="say-hi-to-import">Say hi to Import</h1>
 
-<p>It’s easy, right? See you next week with Importing part.</p>
+<p>It’s easy, right? See part 2 here:</p>
+
+<p><a href="/rails/csv/2015/07/29/import-export-csv-with-ruby-part-2.html">Import, export CSV with Ruby (part 2)</a></p>
 
   </article>
 
