@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Path to enlightenment</title>
-    <description>Ruby on Rails and my concerns about the new tech trends in the world.
+    <title>Delighting me!</title>
+    <description>Ruby on Rails, concern to the new techs
 </description>
     <link>https://nhattan.github.io/</link>
     <atom:link href="https://nhattan.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 29 Jul 2015 09:53:20 +0700</pubDate>
-    <lastBuildDate>Wed, 29 Jul 2015 09:53:20 +0700</lastBuildDate>
+    <pubDate>Fri, 31 Jul 2015 15:46:10 +0700</pubDate>
+    <lastBuildDate>Fri, 31 Jul 2015 15:46:10 +0700</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
