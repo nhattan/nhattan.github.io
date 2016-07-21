@@ -97,73 +97,73 @@
 <p>Nếu chưa tạo SSH key, hãy đọc bài viết này: https://help.github.com/articles/generating-ssh-keys/</p>
 
 <p>In Terminal:
-<code>ssh root@your_droplet_ip</code></p>
+<code class="highlighter-rouge">ssh root@your_droplet_ip</code></p>
 
 <p>Nếu bạn gặp trường hợp tương tự như thế này:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>XX@XX ~<span class="o">]</span><span class="nv">$ </span>ssh root@pong
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>XX@XX ~]<span class="nv">$ </span>ssh root@pong
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
 Someone could be eavesdropping on you right now <span class="o">(</span>man-in-the-middle attack<span class="o">)</span>!
 It is also possible that a host key has just been changed.
-The fingerprint <span class="k">for</span> the RSA key sent by the remote host is
+The fingerprint <span class="k">for </span>the RSA key sent by the remote host is
 6e:45:f9:a8:af:38:3d:a1:a5:c7:76:1d:02:f8:77:00.
 Please contact your system administrator.
-Add correct host key in /home/XX/.ssh/known_hosts to get rid of this message.
-Offending RSA key in /var/lib/sss/pubconf/known_hosts:4
-RSA host key <span class="k">for</span> pong has changed and you have requested strict checking.
-Host key verification failed.</code></pre></div>
+Add correct host key <span class="k">in</span> /home/XX/.ssh/known_hosts to get rid of this message.
+Offending RSA key <span class="k">in</span> /var/lib/sss/pubconf/known_hosts:4
+RSA host key <span class="k">for </span>pong has changed and you have requested strict checking.
+Host key verification failed.</code></pre></figure>
 
-<p>Hãy <code>ssh-keygen -R your_droplet_ip</code> để thêm your_droplet_ip vào known_hosts</p>
+<p>Hãy <code class="highlighter-rouge">ssh-keygen -R your_droplet_ip</code> để thêm your_droplet_ip vào known_hosts</p>
 
 <p>Sau khi bạn đã đăng nhập vào VPS với root user, hãy tạo một user để bắt đầu làm việc với app:</p>
 
-<p><code>sudo adduser deploy</code></p>
+<p><code class="highlighter-rouge">sudo adduser deploy</code></p>
 
-<p>Thêm user deploy vào sudo group: <code>sudo adduser deploy sudo</code></p>
+<p>Thêm user deploy vào sudo group: <code class="highlighter-rouge">sudo adduser deploy sudo</code></p>
 
 <p>File /etc/sudoers được cấu hình sẵn để cấp quyền cho tất cả member trong group (bạn không phải thay đổi gì trong file này)</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Allow members of group sudo to execute any command</span>
-%sudo   <span class="nv">ALL</span><span class="o">=(</span>ALL:ALL<span class="o">)</span> ALL</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Allow members of group sudo to execute any command</span>
+%sudo   <span class="nv">ALL</span><span class="o">=(</span>ALL:ALL<span class="o">)</span> ALL</code></pre></figure>
 
-<p>Login vào deploy user: <code>su deploy</code></p>
+<p>Login vào deploy user: <code class="highlighter-rouge">su deploy</code></p>
 
 <p>Mình khuyên bạn nên cài đặt đăng nhập user deploy bằng key để an toàn hơn.</p>
 
-<p>Sử dụng ssh-copy-id để làm việc này, nếu bạn đang dùng Mac, chạy <code>brew install ssh-copy-id</code> để cài đặt ssh-copy-id</p>
+<p>Sử dụng ssh-copy-id để làm việc này, nếu bạn đang dùng Mac, chạy <code class="highlighter-rouge">brew install ssh-copy-id</code> để cài đặt ssh-copy-id</p>
 
-<p>Chạy ở local (not VPS): <code>ssh-copy-id deploy@your_droplet_ip</code></p>
+<p>Chạy ở local (not VPS): <code class="highlighter-rouge">ssh-copy-id deploy@your_droplet_ip</code></p>
 
 <h3 id="ci-t-ruby">Cài đặt Ruby</h3>
 
 <h4 id="ci-t-dependencies-cho-ruby">Cài đặt dependencies cho Ruby:</h4>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo apt-get update
-sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo apt-get update
+sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties</code></pre></figure>
 
 <h4 id="ci-t-rvm">Cài đặt RVM</h4>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo apt-get install libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
-curl -L https://get.rvm.io <span class="p">|</span> bash -s stable</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo apt-get install libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
+curl -L https://get.rvm.io | bash -s stable</code></pre></figure>
 
 <p>Nếu bị lỗi hãy thử:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
 <span class="c"># hoặc</span>
-<span class="nb">command </span>curl -sSL https://rvm.io/mpapis.asc <span class="p">|</span> gpg --import -</code></pre></div>
+<span class="nb">command </span>curl -sSL https://rvm.io/mpapis.asc | gpg --import -</code></pre></figure>
 
-<p>Sau đó chạy lại <code>curl -L https://get.rvm.io | bash -s stable</code></p>
+<p>Sau đó chạy lại <code class="highlighter-rouge">curl -L https://get.rvm.io | bash -s stable</code></p>
 
 <p>Update script và cài Ruby:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">source</span> ~/.rvm/scripts/rvm
-<span class="nb">echo</span> <span class="s2">&quot;source ~/.rvm/scripts/rvm&quot;</span> &gt;&gt; ~/.bashrc
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">source</span> ~/.rvm/scripts/rvm
+<span class="nb">echo</span> <span class="s2">"source ~/.rvm/scripts/rvm"</span> &gt;&gt; ~/.bashrc
 rvm install 2.1.0
 rvm use 2.1.0 --default
-<span class="nb">echo</span> <span class="s2">&quot;gem: --no-ri --no-rdoc&quot;</span> &gt; ~/.gemrc</code></pre></div>
+<span class="nb">echo</span> <span class="s2">"gem: --no-ri --no-rdoc"</span> &gt; ~/.gemrc</code></pre></figure>
 
 <h3 id="ci-t-nginx--passengerunicorn">Cài đặt Nginx + Passenger/Unicorn</h3>
 
@@ -171,181 +171,181 @@ rvm use 2.1.0 --default
 
 <p>Bạn có thể sử dụng gói cài đặt nginx passenger của Phusion Passenger vì nó rất dễ cài đặt:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Install Phusion&#39;s PGP key to verify packages</span>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Install Phusion's PGP key to verify packages</span>
 gpg --keyserver keyserver.ubuntu.com --recv-keys 561F9B9CAC40B2F7
-gpg --armor --export 561F9B9CAC40B2F7 <span class="p">|</span> sudo apt-key add -
+gpg --armor --export 561F9B9CAC40B2F7 | sudo apt-key add -
 
 <span class="c"># Add HTTPS support to APT</span>
 sudo apt-get install apt-transport-https
 
 <span class="c"># Add the passenger repository</span>
-sudo sh -c <span class="s2">&quot;echo &#39;deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main&#39; &gt;&gt; /etc/apt/sources.list.d/passenger.list&quot;</span>
+sudo sh -c <span class="s2">"echo 'deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main' &gt;&gt; /etc/apt/sources.list.d/passenger.list"</span>
 sudo chown root: /etc/apt/sources.list.d/passenger.list
-sudo chmod <span class="m">600</span> /etc/apt/sources.list.d/passenger.list
+sudo chmod 600 /etc/apt/sources.list.d/passenger.list
 sudo apt-get update
 
 <span class="c"># Install nginx and passenger</span>
-sudo apt-get install nginx-full passenger</code></pre></div>
+sudo apt-get install nginx-full passenger</code></pre></figure>
 
-<p>Sau khi cài đặt thành công passenger, chạy <code>sudo service nginx start</code> hoặc <code>sudo service nginx</code> để xem usage:</p>
+<p>Sau khi cài đặt thành công passenger, chạy <code class="highlighter-rouge">sudo service nginx start</code> hoặc <code class="highlighter-rouge">sudo service nginx</code> để xem usage:</p>
 
-<p><code>Usage: nginx {start|stop|restart|reload|force-reload|status|configtest|rotate|upgrade}</code></p>
+<p><code class="highlighter-rouge">Usage: nginx {start|stop|restart|reload|force-reload|status|configtest|rotate|upgrade}</code></p>
 
-<p>Ngoài ra bạn có thể kiểm tra process bằng cách: <code>ps aux | grep nginx</code></p>
+<p>Ngoài ra bạn có thể kiểm tra process bằng cách: <code class="highlighter-rouge">ps aux | grep nginx</code></p>
 
 <p>Cấu hình Nginx đối với Passenger</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/your_app
-sudo nano /etc/nginx/sites-available/your_app</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/your_app
+sudo nano /etc/nginx/sites-available/your_app</code></pre></figure>
 
-<p><code>sudo nano /etc/nginx/nginx.conf</code> hoặc <code>sudo vi /etc/nginx/nginx.conf</code></p>
+<p><code class="highlighter-rouge">sudo nano /etc/nginx/nginx.conf</code> hoặc <code class="highlighter-rouge">sudo vi /etc/nginx/nginx.conf</code></p>
 
 <p>Uncomment hai dòng như bên dưới:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">##</span>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">##</span>
 <span class="c"># Phusion Passenger</span>
 <span class="c">##</span>
 <span class="c"># Uncomment it if you installed ruby-passenger or ruby-passenger-enterprise</span>
 <span class="c">##</span>
 
-passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini<span class="p">;</span>
-passenger_ruby /usr/bin/ruby<span class="p">;</span></code></pre></div>
+passenger_root /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini;
+passenger_ruby /usr/bin/ruby;</code></pre></figure>
 
-<p>Đối với dòng passenger_ruby bạn chạy  <code>which ruby</code> sau đó sửa passenger_ruby theo đường dẫn đó, ví dụ:</p>
+<p>Đối với dòng passenger_ruby bạn chạy  <code class="highlighter-rouge">which ruby</code> sau đó sửa passenger_ruby theo đường dẫn đó, ví dụ:</p>
 
-<p><code>passenger_ruby /home/deploy/.rvm/rubies/ruby-2.1.0/bin/ruby;</code></p>
+<p><code class="highlighter-rouge">passenger_ruby /home/deploy/.rvm/rubies/ruby-2.1.0/bin/ruby;</code></p>
 
-<p>Bạn có thể edit file <code>/etc/nginx/sites-enabled/default</code> như sau:</p>
+<p>Bạn có thể edit file <code class="highlighter-rouge">/etc/nginx/sites-enabled/default</code> như sau:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">server <span class="o">{</span>
-        listen <span class="m">80</span> default_server<span class="p">;</span>
-        listen <span class="o">[</span>::<span class="o">]</span>:80 default_server <span class="nv">ipv6only</span><span class="o">=</span>on<span class="p">;</span>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">server <span class="o">{</span>
+        listen 80 default_server;
+        listen <span class="o">[</span>::]:80 default_server <span class="nv">ipv6only</span><span class="o">=</span>on;
 
-        passenger_enabled on<span class="p">;</span>
-        rails_env    production<span class="p">;</span>
-        root /var/www/your_app/current/public<span class="p">;</span>
+        passenger_enabled on;
+        rails_env    production;
+        root /var/www/your_app/current/public;
         <span class="c">#index index.html index.htm;</span>
 
         <span class="c"># Make site accessible from http://localhost/</span>
-        server_name localhost<span class="p">;</span>
+        server_name localhost;
 
         location / <span class="o">{</span>
                 <span class="c"># First attempt to serve request as file, then</span>
                 <span class="c"># as directory, then fall back to displaying a 404.</span>
-                try_files <span class="nv">$uri</span> <span class="nv">$uri</span>/ <span class="o">=</span>404<span class="p">;</span>
+                try_files <span class="nv">$uri</span> <span class="nv">$uri</span>/ <span class="o">=</span>404;
                 <span class="c"># Uncomment to enable naxsi on this location</span>
                 <span class="c"># include /etc/nginx/naxsi.rules</span>
         <span class="o">}</span>
-<span class="o">}</span></code></pre></div>
+<span class="o">}</span></code></pre></figure>
 
-<p>Mỗi lần bạn cấu hình Nginx hãy chạy <code>sudo service nginx restart</code> để khởi động lại Nginx.</p>
+<p>Mỗi lần bạn cấu hình Nginx hãy chạy <code class="highlighter-rouge">sudo service nginx restart</code> để khởi động lại Nginx.</p>
 
 <h4 id="nginx--unicorn">Nginx + Unicorn</h4>
 
-<p>Nginx: <code>sudo apt-get -y install nginx</code></p>
+<p>Nginx: <code class="highlighter-rouge">sudo apt-get -y install nginx</code></p>
 
 <p>Cấu hình Nginx với Unicorn</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">upstream backend-unicorn <span class="o">{</span>
-  server unix:/var/www/your_app/current/tmp/sockets/unicorn.sock<span class="p">;</span>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">upstream backend-unicorn <span class="o">{</span>
+  server unix:/var/www/your_app/current/tmp/sockets/unicorn.sock;
 <span class="o">}</span>
 
 server <span class="o">{</span>
-  listen 80<span class="p">;</span>
+  listen 80;
   <span class="c">#listen [::]:80 default_server ipv6only=on;</span>
 
-  root /var/www/your_app/current/public<span class="p">;</span>
+  root /var/www/your_app/current/public;
   <span class="c">#index index.html index.htm;</span>
 
   <span class="c"># Make site accessible from http://localhost/</span>
-  server_name localhost<span class="p">;</span>
+  server_name localhost;
 
   location / <span class="o">{</span>
-    try_files <span class="nv">$uri</span> @webapp<span class="p">;</span>
+    try_files <span class="nv">$uri</span> @webapp;
   <span class="o">}</span>
   location @webapp <span class="o">{</span>
-    proxy_redirect     off<span class="p">;</span>
-    proxy_set_header   Host             <span class="nv">$host</span><span class="p">;</span>
-    proxy_set_header   X-Real-IP        <span class="nv">$remote_addr</span><span class="p">;</span>
-    proxy_set_header   X-Forwarded-For  <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
-    proxy_read_timeout 100<span class="p">;</span>
-    proxy_pass http://backend-unicorn<span class="p">;</span>
+    proxy_redirect     off;
+    proxy_set_header   Host             <span class="nv">$host</span>;
+    proxy_set_header   X-Real-IP        <span class="nv">$remote_addr</span>;
+    proxy_set_header   X-Forwarded-For  <span class="nv">$proxy_add_x_forwarded_for</span>;
+    proxy_read_timeout 100;
+    proxy_pass http://backend-unicorn;
   <span class="o">}</span>
-<span class="o">}</span></code></pre></div>
+<span class="o">}</span></code></pre></figure>
 
 <h3 id="ci-t-mysql">Cài đặt MySQL</h3>
 
-<p><code>sudo apt-get install mysql-server mysql-client libmysqlclient-dev</code></p>
+<p><code class="highlighter-rouge">sudo apt-get install mysql-server mysql-client libmysqlclient-dev</code></p>
 
-<p>Check cài đặt <code>mysql -u root -p</code></p>
+<p>Check cài đặt <code class="highlighter-rouge">mysql -u root -p</code></p>
 
 <h2 id="deploy-vi-capistrano-gem">Deploy với Capistrano gem</h2>
 
 <h3 id="ci-t-git">Cài đặt git</h3>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">git remote add origin git@github.com:your_username/your_app.git
-git config --global user.name <span class="s2">&quot;your_username&quot;</span>
-git config --global user.email <span class="s2">&quot;your_email&quot;</span>
-git push -u origin master</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">git remote add origin git@github.com:your_username/your_app.git
+git config --global user.name <span class="s2">"your_username"</span>
+git config --global user.email <span class="s2">"your_email"</span>
+git push -u origin master</code></pre></figure>
 
 <h3 id="ci-t-capistrano">Cài đặt Capistrano</h3>
-<p>Thêm vào Gemfile, sau đó <code>bundle install</code></p>
+<p>Thêm vào Gemfile, sau đó <code class="highlighter-rouge">bundle install</code></p>
 
 <p>Nếu bạn sử dụng passenger làm Rails server:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">gem <span class="s2">&quot;passenger&quot;</span>
-gem <span class="s2">&quot;capistrano&quot;</span>, <span class="s2">&quot;~&gt; 3.2.0&quot;</span>
-gem <span class="s2">&quot;capistrano-rails&quot;</span>, <span class="s2">&quot;~&gt; 1.1&quot;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">gem <span class="s2">"passenger"</span>
+gem <span class="s2">"capistrano"</span>, <span class="s2">"~&gt; 3.2.0"</span>
+gem <span class="s2">"capistrano-rails"</span>, <span class="s2">"~&gt; 1.1"</span></code></pre></figure>
 
 <p>Nếu bạn sử dụng unicorn làm Rails server:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">gem <span class="s2">&quot;capistrano&quot;</span>, <span class="s2">&quot;~&gt; 3.2.0&quot;</span>
-gem <span class="s2">&quot;unicorn&quot;</span>
-gem <span class="s2">&quot;capistrano3-unicorn&quot;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">gem <span class="s2">"capistrano"</span>, <span class="s2">"~&gt; 3.2.0"</span>
+gem <span class="s2">"unicorn"</span>
+gem <span class="s2">"capistrano3-unicorn"</span></code></pre></figure>
 
 <p>Capify: make sure there’s no “Capfile” or “capfile” present</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># in your_app local folder</span>
-bundle <span class="nb">exec </span>cap install</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># in your_app local folder</span>
+bundle <span class="nb">exec </span>cap install</code></pre></figure>
 
 <p>More: https://github.com/capistrano/capistrano</p>
 
 <p>Capfile for Passenger</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;capistrano/setup&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/deploy&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/rvm&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/rails&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/bundler&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/rails/assets&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/rails/migrations&#39;</span>
-<span class="no">Dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;lib/capistrano/tasks/*.rake&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">import</span> <span class="n">r</span> <span class="p">}</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">'capistrano/setup'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/deploy'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/rvm'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/rails'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/bundler'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/rails/assets'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/rails/migrations'</span>
+<span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s1">'lib/capistrano/tasks/*.rake'</span><span class="p">).</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">import</span> <span class="n">r</span> <span class="p">}</span></code></pre></figure>
 
 <p>Capfile for Unicorn:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">&#39;capistrano/setup&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/deploy&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/rvm&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/rails&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/bundler&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/rails/assets&#39;</span>
-<span class="nb">require</span> <span class="s1">&#39;capistrano/rails/migrations&#39;</span>
-<span class="nb">require</span> <span class="s2">&quot;capistrano3/unicorn&quot;</span>
-<span class="no">Dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;lib/capistrano/tasks/*.rake&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">import</span> <span class="n">r</span> <span class="p">}</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s1">'capistrano/setup'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/deploy'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/rvm'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/rails'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/bundler'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/rails/assets'</span>
+<span class="nb">require</span> <span class="s1">'capistrano/rails/migrations'</span>
+<span class="nb">require</span> <span class="s2">"capistrano3/unicorn"</span>
+<span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s1">'lib/capistrano/tasks/*.rake'</span><span class="p">).</span><span class="nf">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">import</span> <span class="n">r</span> <span class="p">}</span></code></pre></figure>
 
 <p>Deploy.rb cho Passenger</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># config valid only for Capistrano 3.1</span>
-<span class="n">lock</span> <span class="s1">&#39;3.2.1&#39;</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># config valid only for Capistrano 3.1</span>
+<span class="n">lock</span> <span class="s1">'3.2.1'</span>
 
-<span class="n">set</span> <span class="ss">:application</span><span class="p">,</span> <span class="s1">&#39;your_app&#39;</span>
-<span class="n">set</span> <span class="ss">:repo_url</span><span class="p">,</span> <span class="s2">&quot;git@github.com:your_username/your_app.git&quot;</span>
+<span class="n">set</span> <span class="ss">:application</span><span class="p">,</span> <span class="s1">'your_app'</span>
+<span class="n">set</span> <span class="ss">:repo_url</span><span class="p">,</span> <span class="s2">"git@github.com:your_username/your_app.git"</span>
 
 <span class="c1"># Default branch is :master</span>
-<span class="n">ask</span> <span class="ss">:branch</span><span class="p">,</span> <span class="nb">proc</span> <span class="p">{</span> <span class="sb">`git rev-parse --abbrev-ref HEAD`</span><span class="o">.</span><span class="n">chomp</span> <span class="p">}</span><span class="o">.</span><span class="n">call</span>
+<span class="n">ask</span> <span class="ss">:branch</span><span class="p">,</span> <span class="nb">proc</span> <span class="p">{</span> <span class="sb">`git rev-parse --abbrev-ref HEAD`</span><span class="p">.</span><span class="nf">chomp</span> <span class="p">}.</span><span class="nf">call</span>
 
 <span class="c1"># Default deploy_to directory is /var/www/my_app</span>
-<span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span> <span class="s1">&#39;/var/www/your_app&#39;</span>
+<span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span> <span class="s1">'/var/www/your_app'</span>
 
 <span class="c1"># Default value for :scm is :git</span>
 <span class="n">set</span> <span class="ss">:scm</span><span class="p">,</span> <span class="ss">:git</span>
@@ -371,32 +371,32 @@ bundle <span class="nb">exec </span>cap install</code></pre></div>
 
 <span class="n">namespace</span> <span class="ss">:deploy</span> <span class="k">do</span>
 
-  <span class="n">desc</span> <span class="s1">&#39;Restart application&#39;</span>
+  <span class="n">desc</span> <span class="s1">'Restart application'</span>
   <span class="n">task</span> <span class="ss">:restart</span> <span class="k">do</span>
-    <span class="n">on</span> <span class="n">roles</span><span class="p">(</span><span class="ss">:app</span><span class="p">),</span> <span class="k">in</span><span class="p">:</span> <span class="ss">:sequence</span><span class="p">,</span> <span class="ss">wait</span><span class="p">:</span> <span class="mi">1</span> <span class="k">do</span>
-      <span class="n">execute</span> <span class="s2">&quot;sudo /etc/init.d/nginx restart&quot;</span>
+    <span class="n">on</span> <span class="n">roles</span><span class="p">(</span><span class="ss">:app</span><span class="p">),</span> <span class="ss">in: :sequence</span><span class="p">,</span> <span class="ss">wait: </span><span class="mi">1</span> <span class="k">do</span>
+      <span class="n">execute</span> <span class="s2">"sudo /etc/init.d/nginx restart"</span>
       <span class="c1"># Your restart mechanism here, for example:</span>
-      <span class="c1"># execute :touch, release_path.join(&#39;tmp/restart.txt&#39;)</span>
+      <span class="c1"># execute :touch, release_path.join('tmp/restart.txt')</span>
     <span class="k">end</span>
   <span class="k">end</span>
 
   <span class="n">after</span> <span class="ss">:publishing</span><span class="p">,</span> <span class="ss">:restart</span>
 
-<span class="k">end</span></code></pre></div>
+<span class="k">end</span></code></pre></figure>
 
 <p>deploy.rb cho Unicorn</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># config valid only for Capistrano 3.1</span>
-<span class="n">lock</span> <span class="s1">&#39;3.2.1&#39;</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># config valid only for Capistrano 3.1</span>
+<span class="n">lock</span> <span class="s1">'3.2.1'</span>
 
-<span class="n">set</span> <span class="ss">:application</span><span class="p">,</span> <span class="s1">&#39;your_app&#39;</span>
-<span class="n">set</span> <span class="ss">:repo_url</span><span class="p">,</span> <span class="s2">&quot;git@github.com:your_username/your_app.git&quot;</span>
+<span class="n">set</span> <span class="ss">:application</span><span class="p">,</span> <span class="s1">'your_app'</span>
+<span class="n">set</span> <span class="ss">:repo_url</span><span class="p">,</span> <span class="s2">"git@github.com:your_username/your_app.git"</span>
 
 <span class="c1"># Default branch is :master</span>
-<span class="n">ask</span> <span class="ss">:branch</span><span class="p">,</span> <span class="nb">proc</span> <span class="p">{</span> <span class="sb">`git rev-parse --abbrev-ref HEAD`</span><span class="o">.</span><span class="n">chomp</span> <span class="p">}</span><span class="o">.</span><span class="n">call</span>
+<span class="n">ask</span> <span class="ss">:branch</span><span class="p">,</span> <span class="nb">proc</span> <span class="p">{</span> <span class="sb">`git rev-parse --abbrev-ref HEAD`</span><span class="p">.</span><span class="nf">chomp</span> <span class="p">}.</span><span class="nf">call</span>
 
 <span class="c1"># Default deploy_to directory is /var/www/your_app</span>
-<span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span> <span class="s1">&#39;/var/www/your_app&#39;</span>
+<span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span> <span class="s1">'/var/www/your_app'</span>
 
 <span class="c1"># Default value for :scm is :git</span>
 <span class="n">set</span> <span class="ss">:scm</span><span class="p">,</span> <span class="ss">:git</span>
@@ -410,9 +410,9 @@ bundle <span class="nb">exec </span>cap install</code></pre></div>
 <span class="c1"># Default value for :pty is false</span>
 <span class="n">set</span> <span class="ss">:pty</span><span class="p">,</span> <span class="kp">true</span>
 
-<span class="n">set</span> <span class="ss">:pid_file</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">shared_path</span><span class="si">}</span><span class="s2">/tmp/pids/unicorn.pid&quot;</span>
-<span class="n">set</span> <span class="ss">:unicorn_rack_env</span><span class="p">,</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RAILS_ENV&quot;</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;production&quot;</span>
-<span class="n">set</span> <span class="ss">:unicorn_config_path</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">current_path</span><span class="si">}</span><span class="s2">/config/unicorn.rb&quot;</span>
+<span class="n">set</span> <span class="ss">:pid_file</span><span class="p">,</span> <span class="s2">"</span><span class="si">#{</span><span class="n">shared_path</span><span class="si">}</span><span class="s2">/tmp/pids/unicorn.pid"</span>
+<span class="n">set</span> <span class="ss">:unicorn_rack_env</span><span class="p">,</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"RAILS_ENV"</span><span class="p">]</span> <span class="o">||</span> <span class="s2">"production"</span>
+<span class="n">set</span> <span class="ss">:unicorn_config_path</span><span class="p">,</span> <span class="s2">"</span><span class="si">#{</span><span class="n">current_path</span><span class="si">}</span><span class="s2">/config/unicorn.rb"</span>
 
 <span class="c1"># Default value for :linked_files is []</span>
 <span class="n">set</span> <span class="ss">:linked_files</span><span class="p">,</span> <span class="sx">%w{.env}</span> <span class="c1"># Sử dụng dotenv</span>
@@ -424,7 +424,7 @@ bundle <span class="nb">exec </span>cap install</code></pre></div>
 
 <span class="c1"># Default value for default_env is {}</span>
 <span class="n">set</span> <span class="ss">:default_env</span><span class="p">,</span> <span class="p">{</span>
-  <span class="ss">rails_env</span><span class="p">:</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RAILS_ENV&quot;</span><span class="o">]</span><span class="p">,</span>
+  <span class="ss">rails_env: </span><span class="no">ENV</span><span class="p">[</span><span class="s2">"RAILS_ENV"</span><span class="p">],</span>
 <span class="p">}</span>
 
 <span class="c1"># Default value for keep_releases is 5</span>
@@ -432,12 +432,12 @@ bundle <span class="nb">exec </span>cap install</code></pre></div>
 
 <span class="n">namespace</span> <span class="ss">:deploy</span> <span class="k">do</span>
 
-  <span class="n">desc</span> <span class="s2">&quot;seed database&quot;</span>
+  <span class="n">desc</span> <span class="s2">"seed database"</span>
   <span class="n">task</span> <span class="ss">:seed</span> <span class="k">do</span>
     <span class="n">on</span> <span class="n">roles</span><span class="p">(</span><span class="ss">:db</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">host</span><span class="o">|</span>
-      <span class="n">within</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">release_path</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">do</span>
-        <span class="n">with</span> <span class="ss">rails_env</span><span class="p">:</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RAILS_ENV&quot;</span><span class="o">]</span> <span class="k">do</span>
-          <span class="n">execute</span> <span class="ss">:rake</span><span class="p">,</span> <span class="s2">&quot;db:seed&quot;</span>
+      <span class="n">within</span> <span class="s2">"</span><span class="si">#{</span><span class="n">release_path</span><span class="si">}</span><span class="s2">"</span> <span class="k">do</span>
+        <span class="n">with</span> <span class="ss">rails_env: </span><span class="no">ENV</span><span class="p">[</span><span class="s2">"RAILS_ENV"</span><span class="p">]</span> <span class="k">do</span>
+          <span class="n">execute</span> <span class="ss">:rake</span><span class="p">,</span> <span class="s2">"db:seed"</span>
         <span class="k">end</span>
       <span class="k">end</span>
     <span class="k">end</span>
@@ -445,55 +445,55 @@ bundle <span class="nb">exec </span>cap install</code></pre></div>
 
   <span class="n">after</span> <span class="ss">:migrate</span><span class="p">,</span> <span class="ss">:seed</span>
 
-  <span class="n">desc</span> <span class="s2">&quot;Restart application&quot;</span>
+  <span class="n">desc</span> <span class="s2">"Restart application"</span>
   <span class="n">task</span> <span class="ss">:restart</span> <span class="k">do</span>
-    <span class="n">on</span> <span class="n">roles</span><span class="p">(</span><span class="ss">:app</span><span class="p">),</span> <span class="k">in</span><span class="p">:</span> <span class="ss">:sequence</span><span class="p">,</span> <span class="ss">wait</span><span class="p">:</span> <span class="mi">5</span> <span class="k">do</span>
-      <span class="n">invoke</span> <span class="s2">&quot;unicorn:restart&quot;</span>
+    <span class="n">on</span> <span class="n">roles</span><span class="p">(</span><span class="ss">:app</span><span class="p">),</span> <span class="ss">in: :sequence</span><span class="p">,</span> <span class="ss">wait: </span><span class="mi">5</span> <span class="k">do</span>
+      <span class="n">invoke</span> <span class="s2">"unicorn:restart"</span>
     <span class="k">end</span>
   <span class="k">end</span>
 
   <span class="n">after</span> <span class="ss">:publishing</span><span class="p">,</span> <span class="ss">:restart</span>
 
-<span class="k">end</span></code></pre></div>
+<span class="k">end</span></code></pre></figure>
 
 <p>Khi sử dụng Unicorn chúng ta cũng cần config nhiều hơn so với Passenger</p>
 
 <p>Rails.root/config/unicorn.rb</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">rails_env</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RAILS_ENV&quot;</span><span class="o">]</span> <span class="o">||</span> <span class="s2">&quot;production&quot;</span>
-<span class="n">num_workers</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;NUM_UNICORN_WORKERS&quot;</span><span class="o">]</span>
-<span class="n">worker_processes</span> <span class="p">(</span><span class="n">num_workers</span> <span class="p">?</span> <span class="n">num_workers</span><span class="o">.</span><span class="n">to_i</span> <span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
-<span class="n">app_name</span> <span class="o">=</span> <span class="s2">&quot;matee&quot;</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">rails_env</span> <span class="o">=</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"RAILS_ENV"</span><span class="p">]</span> <span class="o">||</span> <span class="s2">"production"</span>
+<span class="n">num_workers</span> <span class="o">=</span> <span class="no">ENV</span><span class="p">[</span><span class="s2">"NUM_UNICORN_WORKERS"</span><span class="p">]</span>
+<span class="n">worker_processes</span> <span class="p">(</span><span class="n">num_workers</span> <span class="p">?</span> <span class="n">num_workers</span><span class="p">.</span><span class="nf">to_i</span> <span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">app_name</span> <span class="o">=</span> <span class="s2">"matee"</span>
 
-<span class="n">app_directory</span> <span class="o">=</span> <span class="s2">&quot;/var/www/</span><span class="si">#{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">/current&quot;</span>
+<span class="n">app_directory</span> <span class="o">=</span> <span class="s2">"/var/www/</span><span class="si">#{</span><span class="n">app_name</span><span class="si">}</span><span class="s2">/current"</span>
 <span class="n">working_directory</span> <span class="n">app_directory</span> <span class="c1"># available in 0.94.0+</span>
 
-<span class="n">listen</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">app_directory</span><span class="si">}</span><span class="s2">/tmp/sockets/unicorn.sock&quot;</span><span class="p">,</span> <span class="ss">backlog</span><span class="p">:</span> <span class="mi">128</span>
+<span class="n">listen</span> <span class="s2">"</span><span class="si">#{</span><span class="n">app_directory</span><span class="si">}</span><span class="s2">/tmp/sockets/unicorn.sock"</span><span class="p">,</span> <span class="ss">backlog: </span><span class="mi">128</span>
 
 <span class="n">timeout</span> <span class="mi">10000</span>
 
-<span class="n">pid</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">app_directory</span><span class="si">}</span><span class="s2">/tmp/pids/unicorn.pid&quot;</span>
+<span class="n">pid</span> <span class="s2">"</span><span class="si">#{</span><span class="n">app_directory</span><span class="si">}</span><span class="s2">/tmp/pids/unicorn.pid"</span>
 
-<span class="n">stderr_path</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">app_directory</span><span class="si">}</span><span class="s2">/log/unicorn_</span><span class="si">#{</span><span class="n">rails_env</span><span class="si">}</span><span class="s2">.log&quot;</span>
-<span class="n">stdout_path</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">app_directory</span><span class="si">}</span><span class="s2">/log/unicorn_</span><span class="si">#{</span><span class="n">rails_env</span><span class="si">}</span><span class="s2">.log&quot;</span>
+<span class="n">stderr_path</span> <span class="s2">"</span><span class="si">#{</span><span class="n">app_directory</span><span class="si">}</span><span class="s2">/log/unicorn_</span><span class="si">#{</span><span class="n">rails_env</span><span class="si">}</span><span class="s2">.log"</span>
+<span class="n">stdout_path</span> <span class="s2">"</span><span class="si">#{</span><span class="n">app_directory</span><span class="si">}</span><span class="s2">/log/unicorn_</span><span class="si">#{</span><span class="n">rails_env</span><span class="si">}</span><span class="s2">.log"</span>
 
 <span class="n">preload_app</span> <span class="kp">true</span>
-<span class="no">GC</span><span class="o">.</span><span class="n">respond_to?</span><span class="p">(</span><span class="ss">:copy_on_write_friendly</span><span class="o">=</span><span class="p">)</span> <span class="ow">and</span>
-  <span class="no">GC</span><span class="o">.</span><span class="n">copy_on_write_friendly</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="no">GC</span><span class="p">.</span><span class="nf">respond_to?</span><span class="p">(</span><span class="ss">:copy_on_write_friendly</span><span class="o">=</span><span class="p">)</span> <span class="n">and</span>
+  <span class="no">GC</span><span class="p">.</span><span class="nf">copy_on_write_friendly</span> <span class="o">=</span> <span class="kp">true</span>
 
 <span class="n">before_exec</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="o">|</span>
-  <span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;BUNDLE_GEMFILE&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">app_directory</span><span class="si">}</span><span class="s2">/Gemfile&quot;</span>
+  <span class="no">ENV</span><span class="p">[</span><span class="s2">"BUNDLE_GEMFILE"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="n">app_directory</span><span class="si">}</span><span class="s2">/Gemfile"</span>
 <span class="k">end</span>
 
 <span class="n">before_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
-  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="ow">and</span>
-    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">disconnect!</span>
+  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="n">and</span>
+    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">connection</span><span class="p">.</span><span class="nf">disconnect!</span>
 
-  <span class="n">old_pid</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">server</span><span class="o">.</span><span class="n">config</span><span class="o">[</span><span class="ss">:pid</span><span class="o">]</span><span class="si">}</span><span class="s2">.oldbin&quot;</span>
-  <span class="k">if</span> <span class="n">old_pid</span> <span class="o">!=</span> <span class="n">server</span><span class="o">.</span><span class="n">pid</span>
+  <span class="n">old_pid</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="n">server</span><span class="p">.</span><span class="nf">config</span><span class="p">[</span><span class="ss">:pid</span><span class="p">]</span><span class="si">}</span><span class="s2">.oldbin"</span>
+  <span class="k">if</span> <span class="n">old_pid</span> <span class="o">!=</span> <span class="n">server</span><span class="p">.</span><span class="nf">pid</span>
     <span class="k">begin</span>
-      <span class="n">sig</span> <span class="o">=</span> <span class="p">(</span><span class="n">worker</span><span class="o">.</span><span class="n">nr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">server</span><span class="o">.</span><span class="n">worker_processes</span> <span class="p">?</span> <span class="ss">:QUIT</span> <span class="p">:</span> <span class="ss">:TTOU</span>
-      <span class="no">Process</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">old_pid</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span>
+      <span class="n">sig</span> <span class="o">=</span> <span class="p">(</span><span class="n">worker</span><span class="p">.</span><span class="nf">nr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">server</span><span class="p">.</span><span class="nf">worker_processes</span> <span class="p">?</span> <span class="ss">:QUIT</span> <span class="p">:</span> <span class="ss">:TTOU</span>
+      <span class="no">Process</span><span class="p">.</span><span class="nf">kill</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">old_pid</span><span class="p">).</span><span class="nf">to_i</span><span class="p">)</span>
     <span class="k">rescue</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ENOENT</span><span class="p">,</span> <span class="no">Errno</span><span class="o">::</span><span class="no">ESRCH</span>
     <span class="k">end</span>
   <span class="k">end</span>
@@ -502,143 +502,143 @@ bundle <span class="nb">exec </span>cap install</code></pre></div>
 <span class="k">end</span>
 
 <span class="n">after_fork</span> <span class="k">do</span> <span class="o">|</span><span class="n">server</span><span class="p">,</span> <span class="n">worker</span><span class="o">|</span>
-  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="ow">and</span>
-    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span>
-<span class="k">end</span></code></pre></div>
+  <span class="n">defined?</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">)</span> <span class="n">and</span>
+    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">establish_connection</span>
+<span class="k">end</span></code></pre></figure>
 
 <p>Đối với Passenger
 Để user deploy có thể restart nginx server:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo visudo
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">sudo visudo
 <span class="c"># Thêm vào dòng sau</span>
-deploy <span class="nv">ALL</span><span class="o">=</span>NOPASSWD:/etc/init.d/nginx</code></pre></div>
+deploy <span class="nv">ALL</span><span class="o">=</span>NOPASSWD:/etc/init.d/nginx</code></pre></figure>
 
 <p>Dòng trên cho phép user deploy execute nginx start, stop và restart mà không cần password</p>
 
-<p>Bạn có thể cấu hình file <code>config/deploy/production.rb</code> như sau</p>
+<p>Bạn có thể cấu hình file <code class="highlighter-rouge">config/deploy/production.rb</code> như sau</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">role</span> <span class="ss">:app</span><span class="p">,</span> <span class="sx">%w{deploy@your_droplet_ip}</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">role</span> <span class="ss">:app</span><span class="p">,</span> <span class="sx">%w{deploy@your_droplet_ip}</span>
 <span class="n">role</span> <span class="ss">:web</span><span class="p">,</span> <span class="sx">%w{deploy@your_droplet_ip}</span>
 <span class="n">role</span> <span class="ss">:db</span><span class="p">,</span>  <span class="sx">%w{deploy@your_droplet_ip}</span>
 
-<span class="n">server</span> <span class="s1">&#39;your_droplet_ip&#39;</span><span class="p">,</span> <span class="ss">user</span><span class="p">:</span> <span class="s1">&#39;deploy&#39;</span><span class="p">,</span> <span class="ss">roles</span><span class="p">:</span> <span class="sx">%w{web app}</span></code></pre></div>
+<span class="n">server</span> <span class="s1">'your_droplet_ip'</span><span class="p">,</span> <span class="ss">user: </span><span class="s1">'deploy'</span><span class="p">,</span> <span class="ss">roles: </span><span class="sx">%w{web app}</span></code></pre></figure>
 
 <h3 id="lets-deploy">Let’s deploy</h3>
 
 <p>Tạo và phân quyền các thư mục cho app của bạn:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># in vps</span>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># in vps</span>
 <span class="nv">deploy_to</span><span class="o">=</span>/var/www/your_app
 mkdir -p <span class="k">${</span><span class="nv">deploy_to</span><span class="k">}</span>
 chown deploy:deploy <span class="k">${</span><span class="nv">deploy_to</span><span class="k">}</span>
 <span class="nb">umask </span>0002
 chmod g+s <span class="k">${</span><span class="nv">deploy_to</span><span class="k">}</span>
 mkdir <span class="k">${</span><span class="nv">deploy_to</span><span class="k">}</span>/<span class="o">{</span>releases,shared<span class="o">}</span>
-chown deploy <span class="k">${</span><span class="nv">deploy_to</span><span class="k">}</span>/<span class="o">{</span>releases,shared<span class="o">}</span></code></pre></div>
+chown deploy <span class="k">${</span><span class="nv">deploy_to</span><span class="k">}</span>/<span class="o">{</span>releases,shared<span class="o">}</span></code></pre></figure>
 
 <p>Tao file database.yml</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">su deploy
-sudo nano /var/www/your_app/shared/config/database.yml</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">su deploy
+sudo nano /var/www/your_app/shared/config/database.yml</code></pre></figure>
 
 <p>Cấu hình mysql cho app của bạn như sau:</p>
 
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">default</span><span class="p-Indicator">:</span> <span class="nl">&amp;default</span>
-  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">mysql2</span>
-  <span class="l-Scalar-Plain">encoding</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">utf8</span>
-  <span class="l-Scalar-Plain">pool</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5</span>
-  <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">root</span>
-  <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">your_root_password</span>
-  <span class="l-Scalar-Plain">socket</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/var/run/mysqld/mysqld.sock</span>
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">default</span><span class="pi">:</span> <span class="nl">&amp;default</span>
+  <span class="s">adapter</span><span class="pi">:</span> <span class="s">mysql2</span>
+  <span class="s">encoding</span><span class="pi">:</span> <span class="s">utf8</span>
+  <span class="s">pool</span><span class="pi">:</span> <span class="s">5</span>
+  <span class="s">username</span><span class="pi">:</span> <span class="s">root</span>
+  <span class="s">password</span><span class="pi">:</span> <span class="s">your_root_password</span>
+  <span class="s">socket</span><span class="pi">:</span> <span class="s">/var/run/mysqld/mysqld.sock</span>
 
-<span class="l-Scalar-Plain">development</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">&lt;&lt;</span><span class="p-Indicator">:</span> <span class="nv">*default</span>
-  <span class="l-Scalar-Plain">database:your_app_development</span>
+<span class="s">development</span><span class="pi">:</span>
+  <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*default</span>
+  <span class="s">database:your_app_development</span>
 
-<span class="l-Scalar-Plain">production</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">&lt;&lt;</span><span class="p-Indicator">:</span> <span class="nv">*default</span>
-  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">your_app_production</span></code></pre></div>
+<span class="s">production</span><span class="pi">:</span>
+  <span class="s">&lt;&lt;</span><span class="pi">:</span> <span class="nv">*default</span>
+  <span class="s">database</span><span class="pi">:</span> <span class="s">your_app_production</span></code></pre></figure>
 
-<p>Để tìm socket chính xác: <code>vi /etc/mysql/my.cnf</code>  bạn sẽ thấy:</p>
+<p>Để tìm socket chính xác: <code class="highlighter-rouge">vi /etc/mysql/my.cnf</code>  bạn sẽ thấy:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>client<span class="o">]</span>
-<span class="nv">port</span>            <span class="o">=</span> 3306
-<span class="nv">socket</span>          <span class="o">=</span> /var/run/mysqld/mysqld.sock</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">[</span>client]
+port            <span class="o">=</span> 3306
+socket          <span class="o">=</span> /var/run/mysqld/mysqld.sock</code></pre></figure>
 
 <p>Tạo file secrets.yml</p>
 
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">sudo nano /var/www/your_app/shared/config/secrets.yml</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">sudo nano /var/www/your_app/shared/config/secrets.yml</span></code></pre></figure>
 
 <p>Điền vào file với nội dung như sau:</p>
 
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">development</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">secret_key_base</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">your_development_key_here</span>
-<span class="l-Scalar-Plain">production</span><span class="p-Indicator">:</span>
-  <span class="l-Scalar-Plain">secret_key_base</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">your_production_key_here</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">development</span><span class="pi">:</span>
+  <span class="s">secret_key_base</span><span class="pi">:</span> <span class="s">your_development_key_here</span>
+<span class="s">production</span><span class="pi">:</span>
+  <span class="s">secret_key_base</span><span class="pi">:</span> <span class="s">your_production_key_here</span></code></pre></figure>
 
-<p>Bạn có thể tạo secret key bằng cách chạy <code>rake secret</code> ở your_app local folder</p>
+<p>Bạn có thể tạo secret key bằng cách chạy <code class="highlighter-rouge">rake secret</code> ở your_app local folder</p>
 
 <p>Tạo database:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">mysql -u root -p
-create database your_app_production<span class="p">;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">mysql -u root -p
+create database your_app_production;</code></pre></figure>
 
 <p>In your_app local folder:</p>
 
-<p><code>cap production deploy</code></p>
+<p><code class="highlighter-rouge">cap production deploy</code></p>
 
 <p>Nhập vào branch muốn deploy: mặc định là branch hiện tại của bạn</p>
 
 <p>Check your deploy:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># in vps</span>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># in vps</span>
 <span class="nb">cd</span> /var/www/your_app
-ll</code></pre></div>
+ll</code></pre></figure>
 
 <p>Bạn sẽ thấy thư mục current symlink đến bản releases 20141127094637 vừa deploy xong:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">total 28
-drwxr-sr-x <span class="m">6</span> deploy deploy <span class="m">4096</span> Nov <span class="m">27</span> 04:48 ./
-drwxr-xr-x <span class="m">3</span> root   root   <span class="m">4096</span> Nov <span class="m">27</span> 03:30 ../
-lrwxrwxrwx <span class="m">1</span> deploy deploy   <span class="m">38</span> Nov <span class="m">27</span> 04:48 current -&gt; /var/www/your_app/releases/20141127094637/
-drwxrwsr-x <span class="m">5</span> deploy deploy <span class="m">4096</span> Nov <span class="m">27</span> 04:46 releases/
-drwxrwsr-x <span class="m">7</span> deploy deploy <span class="m">4096</span> Nov <span class="m">27</span> 04:33 repo/
--rw-rw-r-- <span class="m">1</span> deploy deploy   <span class="m">70</span> Nov <span class="m">27</span> 04:48 revisions.log
-drwxrwsr-x <span class="m">2</span> deploy deploy <span class="m">4096</span> Nov <span class="m">27</span> 03:36 rvm1scripts/
-drwxrwsr-x <span class="m">6</span> deploy deploy <span class="m">4096</span> Nov <span class="m">27</span> 04:33 shared/</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">total 28
+drwxr-sr-x 6 deploy deploy 4096 Nov 27 04:48 ./
+drwxr-xr-x 3 root   root   4096 Nov 27 03:30 ../
+lrwxrwxrwx 1 deploy deploy   38 Nov 27 04:48 current -&gt; /var/www/your_app/releases/20141127094637/
+drwxrwsr-x 5 deploy deploy 4096 Nov 27 04:46 releases/
+drwxrwsr-x 7 deploy deploy 4096 Nov 27 04:33 repo/
+-rw-rw-r-- 1 deploy deploy   70 Nov 27 04:48 revisions.log
+drwxrwsr-x 2 deploy deploy 4096 Nov 27 03:36 rvm1scripts/
+drwxrwsr-x 6 deploy deploy 4096 Nov 27 04:33 shared/</code></pre></figure>
 
 <p>Tiếp tục:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd </span>current
-ll config</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd </span>current
+ll config</code></pre></figure>
 
 <p>Symlink của database.yml và secrets.yml nhằm mục đích an toàn:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">total 44
-drwxrwsr-x  <span class="m">7</span> deploy deploy <span class="m">4096</span> Nov <span class="m">27</span> 04:46 ./
-drwxrwsr-x <span class="m">14</span> deploy deploy <span class="m">4096</span> Nov <span class="m">27</span> 04:48 ../
--rw-rw-r--  <span class="m">1</span> deploy deploy <span class="m">1436</span> Nov <span class="m">13</span> 09:09 application.rb
--rw-rw-r--  <span class="m">1</span> deploy deploy  <span class="m">170</span> Nov <span class="m">13</span> 09:09 boot.rb
-lrwxrwxrwx  <span class="m">1</span> deploy deploy   <span class="m">41</span> Nov <span class="m">27</span> 04:46 database.yml -&gt; /var/www/your_app/shared/config/database.yml
--rw-rw-r--  <span class="m">1</span> deploy deploy  <span class="m">150</span> Nov <span class="m">13</span> 09:09 environment.rb
-drwxrwsr-x  <span class="m">2</span> deploy deploy <span class="m">4096</span> Nov <span class="m">13</span> 09:09 environments/
-drwxrwsr-x  <span class="m">2</span> deploy deploy <span class="m">4096</span> Nov <span class="m">13</span> 09:09 initializers/
-drwxrwsr-x  <span class="m">5</span> deploy deploy <span class="m">4096</span> Nov <span class="m">13</span> 09:09 locales/
-drwxrwsr-x  <span class="m">2</span> deploy deploy <span class="m">4096</span> Nov <span class="m">13</span> 09:09 routes/
--rw-rw-r--  <span class="m">1</span> deploy deploy <span class="m">1653</span> Nov <span class="m">13</span> 09:09 routes.rb
-lrwxrwxrwx  <span class="m">1</span> deploy deploy   <span class="m">40</span> Nov <span class="m">27</span> 04:46 secrets.yml -&gt; /var/www/your_app/shared/config/secrets.yml
-drwxrwsr-x  <span class="m">2</span> deploy deploy <span class="m">4096</span> Nov <span class="m">13</span> 09:09 settings/
--rw-rw-r--  <span class="m">1</span> deploy deploy    <span class="m">0</span> Nov <span class="m">13</span> 09:09 settings.yml</code></pre></div>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">total 44
+drwxrwsr-x  7 deploy deploy 4096 Nov 27 04:46 ./
+drwxrwsr-x 14 deploy deploy 4096 Nov 27 04:48 ../
+-rw-rw-r--  1 deploy deploy 1436 Nov 13 09:09 application.rb
+-rw-rw-r--  1 deploy deploy  170 Nov 13 09:09 boot.rb
+lrwxrwxrwx  1 deploy deploy   41 Nov 27 04:46 database.yml -&gt; /var/www/your_app/shared/config/database.yml
+-rw-rw-r--  1 deploy deploy  150 Nov 13 09:09 environment.rb
+drwxrwsr-x  2 deploy deploy 4096 Nov 13 09:09 environments/
+drwxrwsr-x  2 deploy deploy 4096 Nov 13 09:09 initializers/
+drwxrwsr-x  5 deploy deploy 4096 Nov 13 09:09 locales/
+drwxrwsr-x  2 deploy deploy 4096 Nov 13 09:09 routes/
+-rw-rw-r--  1 deploy deploy 1653 Nov 13 09:09 routes.rb
+lrwxrwxrwx  1 deploy deploy   40 Nov 27 04:46 secrets.yml -&gt; /var/www/your_app/shared/config/secrets.yml
+drwxrwsr-x  2 deploy deploy 4096 Nov 13 09:09 settings/
+-rw-rw-r--  1 deploy deploy    0 Nov 13 09:09 settings.yml</code></pre></figure>
 
 <p>Sau khi deploy xong bạn có thể dùng trình duyệt truy cập vào app: http://your_droplet_ip</p>
 
 <p>Hoặc bạn có thể chạy passenger để test ở địa chỉ http://your_droplet_ip:3000 bằng cách:</p>
 
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#in vps</span>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#in vps</span>
 <span class="nb">cd</span> /var/www/your_app/current
 gem install daemon_controller
 bin/rake db:create db:migrate
-<span class="nv">RAILS_ENV</span><span class="o">=</span>production passenger start</code></pre></div>
+<span class="nv">RAILS_ENV</span><span class="o">=</span>production passenger start</code></pre></figure>
 
 <p>Update: Đối với các file chứa các thông tin bí mật như secrets.yml, database.yml và devise.rb (nếu có) các bạn có thể sử dụng biến môi trường thay vì symlink như cách ở trên. Hai gem được sử dụng phổ biến là: <a href="https://github.com/bkeepers/dotenv">dotenv</a> và <a href="https://github.com/laserlemon/figaro">figaro</a></p>
 
@@ -722,7 +722,7 @@ bin/rake db:create db:migrate
       </div>
 
       <div class="footer-col  footer-col-3">
-        <p class="text">Ruby on Rails, concern to the new techs
+        <p class="text">Ruby on Rails
 </p>
       </div>
     </div>

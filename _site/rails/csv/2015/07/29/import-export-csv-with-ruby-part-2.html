@@ -72,70 +72,70 @@
 
 <h2 id="route">Route</h2>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">resources</span> <span class="ss">:csv_imports</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:create</span><span class="o">]</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="n">resources</span> <span class="ss">:csv_imports</span><span class="p">,</span> <span class="ss">only: </span><span class="p">[</span><span class="ss">:create</span><span class="p">]</span></code></pre></figure>
 
 <h2 id="controller">Controller</h2>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">CsvImportsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-  <span class="n">before_action</span> <span class="ss">:check_params</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="ss">:create</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">CsvImportsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="n">before_action</span> <span class="ss">:check_params</span><span class="p">,</span> <span class="ss">only: :create</span>
 
   <span class="k">def</span> <span class="nf">create</span>
     <span class="k">begin</span>
-      <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+      <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">transaction</span> <span class="k">do</span>
         <span class="n">import_csv</span> <span class="vi">@model</span><span class="p">,</span> <span class="vi">@file</span>
       <span class="k">end</span>
-      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">notice</span><span class="p">:</span> <span class="s2">&quot;Import successfully&quot;</span>
+      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">notice: </span><span class="s2">"Import successfully"</span>
     <span class="k">rescue</span>
-      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">alert</span><span class="p">:</span> <span class="s2">&quot;Import failed&quot;</span>
+      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">alert: </span><span class="s2">"Import failed"</span>
     <span class="k">end</span>
   <span class="k">end</span>
 
   <span class="kp">private</span>
   <span class="k">def</span> <span class="nf">check_params</span>
-    <span class="vi">@model</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:model</span><span class="o">].</span><span class="n">safe_constantize</span>
-    <span class="vi">@file</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:file</span><span class="o">]</span>
-    <span class="k">unless</span> <span class="vi">@model</span> <span class="o">&amp;&amp;</span> <span class="vi">@file</span><span class="o">.</span><span class="n">present?</span>
-      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">alert</span><span class="p">:</span> <span class="s2">&quot;Import failed&quot;</span>
+    <span class="vi">@model</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:model</span><span class="p">].</span><span class="nf">safe_constantize</span>
+    <span class="vi">@file</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:file</span><span class="p">]</span>
+    <span class="k">unless</span> <span class="vi">@model</span> <span class="o">&amp;&amp;</span> <span class="vi">@file</span><span class="p">.</span><span class="nf">present?</span>
+      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">alert: </span><span class="s2">"Import failed"</span>
     <span class="k">end</span>
   <span class="k">end</span>
 
   <span class="k">def</span> <span class="nf">import_csv</span> <span class="n">model</span><span class="p">,</span> <span class="n">file</span>
     <span class="n">exceptions</span> <span class="o">=</span> <span class="sx">%w( created_at updated_at )</span>
-    <span class="no">CSV</span><span class="o">.</span><span class="n">foreach</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="ss">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
-      <span class="n">row_hash</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">to_hash</span><span class="o">.</span><span class="n">except</span><span class="p">(</span><span class="o">*</span><span class="n">exceptions</span><span class="p">)</span>
-      <span class="k">if</span> <span class="n">record</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="n">row_hash</span><span class="o">[</span><span class="s2">&quot;id&quot;</span><span class="o">]</span><span class="p">)</span>
-        <span class="n">record</span><span class="o">.</span><span class="n">update_attributes!</span> <span class="n">row_hash</span>
+    <span class="no">CSV</span><span class="p">.</span><span class="nf">foreach</span><span class="p">(</span><span class="n">file</span><span class="p">.</span><span class="nf">path</span><span class="p">,</span> <span class="ss">headers: </span><span class="kp">true</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+      <span class="n">row_hash</span> <span class="o">=</span> <span class="n">row</span><span class="p">.</span><span class="nf">to_hash</span><span class="p">.</span><span class="nf">except</span><span class="p">(</span><span class="o">*</span><span class="n">exceptions</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">record</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">find_by</span><span class="p">(</span><span class="ss">id: </span><span class="n">row_hash</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
+        <span class="n">record</span><span class="p">.</span><span class="nf">update_attributes!</span> <span class="n">row_hash</span>
       <span class="k">else</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">create!</span> <span class="n">row_hash</span>
+        <span class="n">model</span><span class="p">.</span><span class="nf">create!</span> <span class="n">row_hash</span>
       <span class="k">end</span>
     <span class="k">end</span>
   <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<span class="k">end</span></code></pre></figure>
 
 <h2 id="view">View</h2>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># trigger button</span>
-<span class="o">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Import&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="sx">%w(btn search-form-toggle)</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span><span class="ss">target</span><span class="p">:</span> <span class="s2">&quot;import-form&quot;</span><span class="p">}</span> <span class="o">%&gt;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># trigger button</span>
+<span class="o">&lt;</span><span class="sx">%= link_to "Import", "#", class: %w(btn search-form-toggle), data: {target: "import-form"} %&gt;</span></code></pre></figure>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># _import_form.html.erb</span>
-<span class="o">&lt;</span><span class="sx">%= form_tag csv_imports_path, method: :post, multipart: true, id: &quot;import-form&quot;, class: &quot;search-form form-inline&quot; do %&gt;</span>
-<span class="sx">  &lt;div&gt;</span>
-<span class="sx">    &lt;%=</span> <span class="n">label_tag</span> <span class="ss">:file</span><span class="p">,</span> <span class="s2">&quot;CSV: &quot;</span> <span class="sx">%&gt;</span>
-<span class="sx">    &lt;%= file_field_tag :file %&gt;</span>
-    <span class="o">&lt;</span><span class="sx">%= hidden_field_tag :model, model %&gt;</span>
-<span class="sx">    &lt;%=</span> <span class="n">submit_tag</span> <span class="s2">&quot;Submit&quot;</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;btn btn-primary&quot;</span> <span class="sx">%&gt;</span>
-<span class="sx">  &lt;/div&gt;</span>
-<span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># _import_form.html.erb</span>
+<span class="o">&lt;</span><span class="sx">%= form_tag csv_imports_path, method: :post, multipart: true, id: "import-form", class: "search-form form-inline" do %&gt;
+  &lt;div&gt;
+    &lt;%=</span> <span class="n">label_tag</span> <span class="ss">:file</span><span class="p">,</span> <span class="s2">"CSV: "</span> <span class="o">%&gt;</span>
+    <span class="o">&lt;</span><span class="sx">%= file_field_tag :file %&gt;
+    &lt;%=</span> <span class="n">hidden_field_tag</span> <span class="ss">:model</span><span class="p">,</span> <span class="n">model</span> <span class="sx">%&gt;
+    &lt;%= submit_tag "Submit", class: "btn btn-primary" %&gt;</span>
+  <span class="o">&lt;</span><span class="sr">/div&gt;
+&lt;% end %&gt;</span></code></pre></figure>
 
-<p>Here, <code>headers: true</code> means it treats first row as the CSV’s header. When the CSV file has header you can easily access the content by the header, eg: <code>row_hash["id"]</code>, where id is the first column of the CSV file.</p>
+<p>Here, <code class="highlighter-rouge">headers: true</code> means it treats first row as the CSV’s header. When the CSV file has header you can easily access the content by the header, eg: <code class="highlighter-rouge">row_hash["id"]</code>, where id is the first column of the CSV file.</p>
 
-<p>The CSV file contain the id column so the <code>import_csv</code> will update the record if it do exist. Otherwise, it will create a brand new record.</p>
+<p>The CSV file contain the id column so the <code class="highlighter-rouge">import_csv</code> will update the record if it do exist. Otherwise, it will create a brand new record.</p>
 
-<p>In the <code>import_csv</code> method I use the bang method like <code>update_attributes!</code> and <code>create!</code> so it will raise the error if there’s any problem with the updating and creating record.</p>
+<p>In the <code class="highlighter-rouge">import_csv</code> method I use the bang method like <code class="highlighter-rouge">update_attributes!</code> and <code class="highlighter-rouge">create!</code> so it will raise the error if there’s any problem with the updating and creating record.</p>
 
-<p>Then I puts the <code>import_csv</code> into a transaction so tt’ll create/update all records or do nothing (rollback) if any error is raised inside the transaction, and we rescue the error by redirecting back with a flash message.</p>
+<p>Then I puts the <code class="highlighter-rouge">import_csv</code> into a transaction so tt’ll create/update all records or do nothing (rollback) if any error is raised inside the transaction, and we rescue the error by redirecting back with a flash message.</p>
 
-<p>If you’d like to know the exact error which make the transaction rolled back, you can <code>rescue =&gt; e</code>, then <code>puts e</code> to get the detail error or use any debug tool such as <a href="https://github.com/deivid-rodriguez/byebug">byebug</a>, <a href="https://github.com/rweng/pry-rails">pry-rails</a>.</p>
+<p>If you’d like to know the exact error which make the transaction rolled back, you can <code class="highlighter-rouge">rescue =&gt; e</code>, then <code class="highlighter-rouge">puts e</code> to get the detail error or use any debug tool such as <a href="https://github.com/deivid-rodriguez/byebug">byebug</a>, <a href="https://github.com/rweng/pry-rails">pry-rails</a>.</p>
 
 <p>Hope it’s useful!</p>
 
@@ -209,7 +209,7 @@
       </div>
 
       <div class="footer-col  footer-col-3">
-        <p class="text">Ruby on Rails, concern to the new techs
+        <p class="text">Ruby on Rails
 </p>
       </div>
     </div>

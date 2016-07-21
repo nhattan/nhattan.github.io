@@ -72,79 +72,79 @@
 
 <h2 id="route">Route</h2>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">resources</span> <span class="ss">:csv_exports</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:create</span><span class="o">]</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="n">resources</span> <span class="ss">:csv_exports</span><span class="p">,</span> <span class="ss">only: </span><span class="p">[</span><span class="ss">:create</span><span class="p">]</span></code></pre></figure>
 
 <h2 id="controller">Controller</h2>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">CsvExportsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
-  <span class="n">before_action</span> <span class="ss">:check_params</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="ss">:create</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">CsvExportsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="n">before_action</span> <span class="ss">:check_params</span><span class="p">,</span> <span class="ss">only: :create</span>
 
   <span class="k">def</span> <span class="nf">create</span>
     <span class="k">begin</span>
-      <span class="n">timestamp</span> <span class="o">=</span> <span class="no">Time</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-%d-%H-%M-%S&quot;</span><span class="p">)</span>
-      <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="vi">@model</span><span class="o">.</span><span class="n">table_name</span><span class="si">}</span><span class="s2">-</span><span class="si">#{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.csv&quot;</span>
-      <span class="n">send_data</span> <span class="n">export_csv</span><span class="p">(</span><span class="vi">@model</span><span class="p">,</span> <span class="vi">@object_ids</span><span class="p">),</span> <span class="ss">filename</span><span class="p">:</span> <span class="n">filename</span>
+      <span class="n">timestamp</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">current</span><span class="p">.</span><span class="nf">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-%d-%H-%M-%S"</span><span class="p">)</span>
+      <span class="n">filename</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="vi">@model</span><span class="p">.</span><span class="nf">table_name</span><span class="si">}</span><span class="s2">-</span><span class="si">#{</span><span class="n">timestamp</span><span class="si">}</span><span class="s2">.csv"</span>
+      <span class="n">send_data</span> <span class="n">export_csv</span><span class="p">(</span><span class="vi">@model</span><span class="p">,</span> <span class="vi">@object_ids</span><span class="p">),</span> <span class="ss">filename: </span><span class="n">filename</span>
     <span class="k">rescue</span>
-      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">alert</span><span class="p">:</span> <span class="s2">&quot;Export failed&quot;</span>
+      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">alert: </span><span class="s2">"Export failed"</span>
     <span class="k">end</span>
   <span class="k">end</span>
 
   <span class="kp">private</span>
   <span class="k">def</span> <span class="nf">check_params</span>
-    <span class="vi">@model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">safe_constantize</span> <span class="c1"># return nil if the model is not exist</span>
+    <span class="vi">@model</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">safe_constantize</span> <span class="c1"># return nil if the model is not exist</span>
     <span class="k">unless</span> <span class="vi">@model</span>
-      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">alert</span><span class="p">:</span> <span class="s2">&quot;Export failed&quot;</span>
+      <span class="n">redirect_to</span> <span class="ss">:back</span><span class="p">,</span> <span class="ss">alert: </span><span class="s2">"Export failed"</span>
     <span class="k">end</span>
   <span class="k">end</span>
 
   <span class="k">def</span> <span class="nf">export_csv</span> <span class="n">model</span><span class="p">,</span> <span class="n">object_ids</span>
-    <span class="n">objects</span> <span class="o">=</span> <span class="n">object_ids</span><span class="o">.</span><span class="n">present?</span> <span class="p">?</span> <span class="n">model</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="n">object_ids</span><span class="p">)</span> <span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">all</span>
-    <span class="n">exceptions</span> <span class="o">=</span> <span class="sx">%w( created_at updated_at )</span> <span class="c1"># if you don&#39;t need to export timestamps</span>
-    <span class="n">attrs</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">column_names</span><span class="o">.</span><span class="n">reject</span><span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">exceptions</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">}</span>
-    <span class="no">CSV</span><span class="o">.</span><span class="n">generate</span> <span class="k">do</span> <span class="o">|</span><span class="n">csv</span><span class="o">|</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="n">object_ids</span><span class="p">.</span><span class="nf">present?</span> <span class="p">?</span> <span class="n">model</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">id: </span><span class="n">object_ids</span><span class="p">)</span> <span class="p">:</span> <span class="n">model</span><span class="p">.</span><span class="nf">all</span>
+    <span class="n">exceptions</span> <span class="o">=</span> <span class="sx">%w( created_at updated_at )</span> <span class="c1"># if you don't need to export timestamps</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">column_names</span><span class="p">.</span><span class="nf">reject</span><span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">exceptions</span><span class="p">.</span><span class="nf">include?</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="p">}</span>
+    <span class="no">CSV</span><span class="p">.</span><span class="nf">generate</span> <span class="k">do</span> <span class="o">|</span><span class="n">csv</span><span class="o">|</span>
       <span class="n">csv</span> <span class="o">&lt;&lt;</span> <span class="n">attrs</span>
-      <span class="n">objects</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">object</span><span class="o">|</span>
-        <span class="n">csv</span> <span class="o">&lt;&lt;</span> <span class="n">object</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">values_at</span><span class="p">(</span><span class="o">*</span><span class="n">attrs</span><span class="p">)</span>
+      <span class="n">objects</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">object</span><span class="o">|</span>
+        <span class="n">csv</span> <span class="o">&lt;&lt;</span> <span class="n">object</span><span class="p">.</span><span class="nf">attributes</span><span class="p">.</span><span class="nf">values_at</span><span class="p">(</span><span class="o">*</span><span class="n">attrs</span><span class="p">)</span>
       <span class="k">end</span>
     <span class="k">end</span>
   <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<span class="k">end</span></code></pre></figure>
 
 <h2 id="view">View</h2>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># trigger button</span>
-<span class="o">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Export&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="sx">%w(btn search-form-toggle)</span><span class="p">,</span> <span class="ss">data</span><span class="p">:</span> <span class="p">{</span><span class="ss">target</span><span class="p">:</span> <span class="s2">&quot;export-form&quot;</span><span class="p">}</span> <span class="o">%&gt;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># trigger button</span>
+<span class="o">&lt;</span><span class="sx">%= link_to "Export", "#", class: %w(btn search-form-toggle), data: {target: "export-form"} %&gt;</span></code></pre></figure>
 
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// js for search-form-toggle</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// js for search-form-toggle</span>
 <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.search-form-toggle&quot;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="s2">".search-form-toggle"</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">target</span><span class="p">;</span>
     <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
-    <span class="nx">target</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;data-target&quot;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#&quot;</span> <span class="o">+</span> <span class="nx">target</span><span class="p">).</span><span class="nx">slideToggle</span><span class="p">(</span><span class="s2">&quot;fast&quot;</span><span class="p">);</span>
+    <span class="nx">target</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"data-target"</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="s2">"#"</span> <span class="o">+</span> <span class="nx">target</span><span class="p">).</span><span class="nx">slideToggle</span><span class="p">(</span><span class="s2">"fast"</span><span class="p">);</span>
   <span class="p">});</span>
-<span class="p">});</span></code></pre></div>
+<span class="p">});</span></code></pre></figure>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># _export_form.html.erb</span>
-<span class="o">&lt;</span><span class="sx">%= form_tag csv_exports_path, method: :post, multipart: true, id: &quot;export-form&quot;, class: &quot;search-form&quot; do %&gt;</span>
-<span class="sx">  &lt;%=</span> <span class="n">hidden_field_tag</span> <span class="ss">:model</span><span class="p">,</span> <span class="n">model</span> <span class="sx">%&gt;</span>
-<span class="sx">  &lt;% @search = model.search params[:q] %&gt;</span>
-  <span class="o">&lt;</span><span class="sx">%= hidden_field_tag :object_ids, @search.result.ids %&gt;</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># _export_form.html.erb</span>
+<span class="o">&lt;</span><span class="sx">%= form_tag csv_exports_path, method: :post, multipart: true, id: "export-form", class: "search-form" do %&gt;
+  &lt;%=</span> <span class="n">hidden_field_tag</span> <span class="ss">:model</span><span class="p">,</span> <span class="n">model</span> <span class="sx">%&gt;
+  &lt;% @search = model.search params[:q] %&gt;</span>
+  <span class="o">&lt;</span><span class="sx">%= hidden_field_tag :object_ids, @search.result.ids %&gt;
 
-<span class="sx">  &lt;div class=</span><span class="s2">&quot;text-center&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;%=</span> <span class="n">submit_tag</span> <span class="s2">&quot;Submit&quot;</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;btn btn-primary&quot;</span> <span class="sx">%&gt;</span>
-<span class="sx">  &lt;/div&gt;</span>
-<span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span></code></pre></div>
+  &lt;div class=</span><span class="s2">"text-center"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="sx">%= submit_tag "Submit", class: "btn btn-primary" %&gt;
+  &lt;/div&gt;
+&lt;% end %&gt;</span></code></pre></figure>
 
 <p>Here, I’m using <a href="https://github.com/activerecord-hackery/ransack">ransack</a> as object searching so you can see:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="sx">% @search </span><span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">search</span> <span class="n">params</span><span class="o">[</span><span class="ss">:q</span><span class="o">]</span> <span class="o">%&gt;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="sx">% @search </span><span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">search</span> <span class="n">params</span><span class="p">[</span><span class="ss">:q</span><span class="p">]</span> <span class="o">%&gt;</span></code></pre></figure>
 
-<p>It just exports records of search result. If you want to export all exist records in database, you can remove all the codes that relate to <code>object_ids</code> in this post.</p>
+<p>It just exports records of search result. If you want to export all exist records in database, you can remove all the codes that relate to <code class="highlighter-rouge">object_ids</code> in this post.</p>
 
 <p>I recommend to use this line of code for importing purpose:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">exceptions</span> <span class="o">=</span> <span class="sx">%w( created_at updated_at )</span> <span class="c1"># if you don&#39;t need to export timestamps</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">exceptions</span> <span class="o">=</span> <span class="sx">%w( created_at updated_at )</span> <span class="c1"># if you don't need to export timestamps</span></code></pre></figure>
 
 <p>Because when you import, it means that you create new record and you don’t need to use the timestamps in csv file anymore.</p>
 
@@ -224,7 +224,7 @@
       </div>
 
       <div class="footer-col  footer-col-3">
-        <p class="text">Ruby on Rails, concern to the new techs
+        <p class="text">Ruby on Rails
 </p>
       </div>
     </div>

@@ -11,7 +11,7 @@
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://nhattan.github.io/rails/upload/2015/03/21/upload-multiple-files-to-s3-with-refile.html">
-  <link rel="alternate" type="application/rss+xml" title="Delighting me!" href="https://nhattan.github.io/feed.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Just another blog" href="https://nhattan.github.io/feed.xml" />
   <link rel="shortcut icon" type="image/png" href="/images/favicon.png">
   <script src="//load.sumome.com/" data-sumo-site-id="1653ae278f0ac78e38701b7b077ae605a1f3378d0a789a967c1ee6dc8bc5c76f" async="async"></script>
 </head>
@@ -23,7 +23,7 @@
 
   <div class="wrapper">
 
-    <a class="site-title" href="/">Delighting me!</a>
+    <a class="site-title" href="/">Just another blog</a>
 
     <nav class="site-nav">
       <a href="#" class="menu-icon">
@@ -76,105 +76,105 @@
 
 <p>Gemfile</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s2">&quot;refile&quot;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="o">[</span><span class="s2">&quot;refile/rails&quot;</span><span class="o">]</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">gem</span> <span class="s2">"refile"</span><span class="p">,</span> <span class="ss">require: </span><span class="p">[</span><span class="s2">"refile/rails"</span><span class="p">]</span></code></pre></figure>
 
-<p>Ví dụ được đưa ra ở đây là <code>product has_many :pictures</code> và <code>picture belongs_to :product</code>, và <code>picture attachment :file</code></p>
+<p>Ví dụ được đưa ra ở đây là <code class="highlighter-rouge">product has_many :pictures</code> và <code class="highlighter-rouge">picture belongs_to :product</code>, và <code class="highlighter-rouge">picture attachment :file</code></p>
 
-<p>Nếu khai báo <code>attachment :file</code> thì bạn cũng add <code>file_id</code>, cũng như metadata của file vào như: <code>file_filename, file_size, file_content_type</code>. Refile sẽ tự động điền metadata khi bạn tạo object.</p>
+<p>Nếu khai báo <code class="highlighter-rouge">attachment :file</code> thì bạn cũng add <code class="highlighter-rouge">file_id</code>, cũng như metadata của file vào như: <code class="highlighter-rouge">file_filename, file_size, file_content_type</code>. Refile sẽ tự động điền metadata khi bạn tạo object.</p>
 
 <p>Migration</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">CreatePictures</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">CreatePictures</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
   <span class="k">def</span> <span class="nf">change</span>
     <span class="n">create_table</span> <span class="ss">:pictures</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
-      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:product_id</span>
-      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:file_id</span>
-      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:file_filename</span>
-      <span class="n">t</span><span class="o">.</span><span class="n">integer</span> <span class="ss">:file_size</span>
-      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:file_content_type</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:product_id</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:file_id</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:file_filename</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">integer</span> <span class="ss">:file_size</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">string</span> <span class="ss">:file_content_type</span>
 
-      <span class="n">t</span><span class="o">.</span><span class="n">timestamps</span>
+      <span class="n">t</span><span class="p">.</span><span class="nf">timestamps</span>
     <span class="k">end</span>
   <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<span class="k">end</span></code></pre></figure>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Picture</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Picture</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="n">belongs_to</span> <span class="ss">:product</span>
-  <span class="n">attachment</span> <span class="ss">:file</span><span class="p">,</span> <span class="ss">content_type</span><span class="p">:</span> <span class="o">[</span><span class="s2">&quot;image/jpeg&quot;</span><span class="p">,</span> <span class="s2">&quot;image/png&quot;</span><span class="p">,</span> <span class="s2">&quot;image/gif&quot;</span><span class="o">]</span>
+  <span class="n">attachment</span> <span class="ss">:file</span><span class="p">,</span> <span class="ss">content_type: </span><span class="p">[</span><span class="s2">"image/jpeg"</span><span class="p">,</span> <span class="s2">"image/png"</span><span class="p">,</span> <span class="s2">"image/gif"</span><span class="p">]</span>
 
   <span class="n">validates_uniqueness_of</span> <span class="ss">:file_filename</span>
 <span class="k">end</span>
 
 <span class="k">class</span> <span class="nc">Product</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-  <span class="no">UPDATABLE_ATTRIBUTES_FOR_ADMINS</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span>
-    <span class="ss">:price</span><span class="p">,</span> <span class="ss">pictures_attributes</span><span class="p">:</span> <span class="o">[</span><span class="ss">:id</span><span class="p">,</span> <span class="ss">:file</span><span class="p">,</span> <span class="ss">:_destroy</span><span class="o">]]</span>
+  <span class="no">UPDATABLE_ATTRIBUTES_FOR_ADMINS</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:name</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span>
+    <span class="ss">:price</span><span class="p">,</span> <span class="ss">pictures_attributes: </span><span class="p">[</span><span class="ss">:id</span><span class="p">,</span> <span class="ss">:file</span><span class="p">,</span> <span class="ss">:_destroy</span><span class="p">]]</span>
   <span class="n">has_many</span> <span class="ss">:pictures</span>
-  <span class="n">accepts_nested_attributes_for</span> <span class="ss">:pictures</span><span class="p">,</span> <span class="ss">allow_destroy</span><span class="p">:</span> <span class="kp">true</span>
+  <span class="n">accepts_nested_attributes_for</span> <span class="ss">:pictures</span><span class="p">,</span> <span class="ss">allow_destroy: </span><span class="kp">true</span>
 
   <span class="k">def</span> <span class="nf">create_pictures!</span> <span class="n">picture_params</span>
     <span class="n">transaction</span> <span class="k">do</span>
-      <span class="n">picture_params</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">picture_param</span><span class="o">|</span>
-        <span class="n">pictures</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="ss">file</span><span class="p">:</span> <span class="n">picture_param</span><span class="p">)</span>
+      <span class="n">picture_params</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">picture_param</span><span class="o">|</span>
+        <span class="n">pictures</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">file: </span><span class="n">picture_param</span><span class="p">)</span>
       <span class="k">end</span>
     <span class="k">end</span>
   <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<span class="k">end</span></code></pre></figure>
 
-<p>Ở đây, ta dùng nested attributes của Rails để có thể submit một form với nhiều pictures, thêm <code>pictures_attributes: [:id, :file, :_destroy]</code> vào permited params.</p>
+<p>Ở đây, ta dùng nested attributes của Rails để có thể submit một form với nhiều pictures, thêm <code class="highlighter-rouge">pictures_attributes: [:id, :file, :_destroy]</code> vào permited params.</p>
 
-<p><code>:_destroy</code> ở đây là tham số của nested attributes, nếu :_destroy = 1 thì nested attribute picture cũng như file sẽ bị xoá. Bạn không cần phải dùng đến tham số :remove_file như attribute bình thường nữa.</p>
+<p><code class="highlighter-rouge">:_destroy</code> ở đây là tham số của nested attributes, nếu :_destroy = 1 thì nested attribute picture cũng như file sẽ bị xoá. Bạn không cần phải dùng đến tham số :remove_file như attribute bình thường nữa.</p>
 
 <p>Form</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="sx">%= form_for [:admin, @product], html: {multipart: true} do |f| %&gt;</span>
-<span class="sx">  &lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">fields_for</span> <span class="ss">:pictures</span> <span class="k">do</span> <span class="o">|</span><span class="n">builder</span><span class="o">|</span> <span class="sx">%&gt;</span>
-<span class="sx">    &lt;%= builder.object.file_name %&gt;</span>
-    <span class="o">&lt;</span><span class="sx">%= builder.check_box :_destroy %&gt;</span>
-<span class="sx">  &lt;% end %&gt;</span>
-<span class="sx">  &lt;%=</span> <span class="n">file_field_tag</span> <span class="s2">&quot;pictures[]&quot;</span><span class="p">,</span> <span class="ss">multiple</span><span class="p">:</span> <span class="kp">true</span> <span class="sx">%&gt;</span>
-<span class="sx">  &lt;%= f.submit %&gt;</span>
-<span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="sx">%= form_for [:admin, @product], html: {multipart: true} do |f| %&gt;
+  &lt;%=</span> <span class="n">f</span><span class="p">.</span><span class="nf">fields_for</span> <span class="ss">:pictures</span> <span class="k">do</span> <span class="o">|</span><span class="n">builder</span><span class="o">|</span> <span class="sx">%&gt;
+    &lt;%= builder.object.file_name %&gt;</span>
+    <span class="o">&lt;</span><span class="sx">%= builder.check_box :_destroy %&gt;
+  &lt;% end %&gt;
+  &lt;%=</span> <span class="n">file_field_tag</span> <span class="s2">"pictures[]"</span><span class="p">,</span> <span class="ss">multiple: </span><span class="kp">true</span> <span class="sx">%&gt;
+  &lt;%= f.submit %&gt;</span>
+<span class="o">&lt;</span><span class="sx">% end </span><span class="o">%&gt;</span></code></pre></figure>
 
 <p>Controller</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">create</span>
-  <span class="k">if</span> <span class="vi">@product</span><span class="o">.</span><span class="n">save</span>
-    <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:pictures</span><span class="o">].</span><span class="n">present?</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">create</span>
+  <span class="k">if</span> <span class="vi">@product</span><span class="p">.</span><span class="nf">save</span>
+    <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="ss">:pictures</span><span class="p">].</span><span class="nf">present?</span>
       <span class="k">begin</span>
-        <span class="vi">@product</span><span class="o">.</span><span class="n">create_pictures!</span> <span class="n">params</span><span class="o">[</span><span class="ss">:pictures</span><span class="o">]</span>
+        <span class="vi">@product</span><span class="p">.</span><span class="nf">create_pictures!</span> <span class="n">params</span><span class="p">[</span><span class="ss">:pictures</span><span class="p">]</span>
       <span class="k">rescue</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">RecordInvalid</span>
-        <span class="n">redirect_to</span> <span class="o">[</span><span class="ss">:admin</span><span class="p">,</span> <span class="vi">@product</span><span class="o">]</span> <span class="ow">and</span> <span class="k">return</span>
+        <span class="n">redirect_to</span> <span class="p">[</span><span class="ss">:admin</span><span class="p">,</span> <span class="vi">@product</span><span class="p">]</span> <span class="n">and</span> <span class="k">return</span>
       <span class="k">end</span>
     <span class="k">end</span>
-    <span class="n">redirect_to</span> <span class="o">[</span><span class="ss">:admin</span><span class="p">,</span> <span class="vi">@product</span><span class="o">]</span>
+    <span class="n">redirect_to</span> <span class="p">[</span><span class="ss">:admin</span><span class="p">,</span> <span class="vi">@product</span><span class="p">]</span>
   <span class="k">else</span>
     <span class="n">render</span> <span class="ss">:new</span>
   <span class="k">end</span>
-<span class="k">end</span></code></pre></div>
+<span class="k">end</span></code></pre></figure>
 
 <p>Hàm update trong controller cũng viết tương tự như create như trên.</p>
 
 <p>Backend</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s2">&quot;refile/backend/s3&quot;</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s2">"refile/backend/s3"</span>
 
 <span class="n">aws</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">access_key_id</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;AWS_ACCESS_KEY_ID&quot;</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-  <span class="ss">secret_access_key</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;AWS_SECRET_ACCESS_KEY&quot;</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-  <span class="ss">bucket</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;AWS_BUCKET&quot;</span><span class="o">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+  <span class="ss">access_key_id: </span><span class="s2">"</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s2">"AWS_ACCESS_KEY_ID"</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">secret_access_key: </span><span class="s2">"</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s2">"AWS_SECRET_ACCESS_KEY"</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+  <span class="ss">bucket: </span><span class="s2">"</span><span class="si">#{</span><span class="no">ENV</span><span class="p">[</span><span class="s2">"AWS_BUCKET"</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
 <span class="p">}</span>
-<span class="no">Refile</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="no">Refile</span><span class="o">::</span><span class="no">Backend</span><span class="o">::</span><span class="no">S3</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">prefix</span><span class="p">:</span> <span class="s2">&quot;cache&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">aws</span><span class="p">)</span>
-<span class="no">Refile</span><span class="o">.</span><span class="n">store</span> <span class="o">=</span> <span class="no">Refile</span><span class="o">::</span><span class="no">Backend</span><span class="o">::</span><span class="no">S3</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">prefix</span><span class="p">:</span> <span class="s2">&quot;store&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">aws</span><span class="p">)</span></code></pre></div>
+<span class="no">Refile</span><span class="p">.</span><span class="nf">cache</span> <span class="o">=</span> <span class="no">Refile</span><span class="o">::</span><span class="no">Backend</span><span class="o">::</span><span class="no">S3</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">prefix: </span><span class="s2">"cache"</span><span class="p">,</span> <span class="o">**</span><span class="n">aws</span><span class="p">)</span>
+<span class="no">Refile</span><span class="p">.</span><span class="nf">store</span> <span class="o">=</span> <span class="no">Refile</span><span class="o">::</span><span class="no">Backend</span><span class="o">::</span><span class="no">S3</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">prefix: </span><span class="s2">"store"</span><span class="p">,</span> <span class="o">**</span><span class="n">aws</span><span class="p">)</span></code></pre></figure>
 
-<p>Khi upload một file lên S3, trước khi record được validate và save thì file nằm ở trong <code>Refile.cache</code> nếu không có lỗi thì file sẽ được chuyển sang <code>Refile.store</code>. Ngược lại, file vẫn nằm ở <code>Refile.cache</code> để submit lại hoặc để cleanup sau này.</p>
+<p>Khi upload một file lên S3, trước khi record được validate và save thì file nằm ở trong <code class="highlighter-rouge">Refile.cache</code> nếu không có lỗi thì file sẽ được chuyển sang <code class="highlighter-rouge">Refile.store</code>. Ngược lại, file vẫn nằm ở <code class="highlighter-rouge">Refile.cache</code> để submit lại hoặc để cleanup sau này.</p>
 
 <p>Để cài đặt biến môi trường bạn có thể dùng gem <a href="https://github.com/bkeepers/dotenv">dotenv</a> hoặc <a href="https://github.com/laserlemon/figaro">figaro</a></p>
 
 <p>Còn phần upload 1 file bạn có thể đọc README trên <a href="https://github.com/elabs/refile">project page</a></p>
 
 <p>Hiện tại Refile có một số tính năng để upload 1 file rất hay như:
-- Presigned uploads: Upload trực tiếp lên S3 bucket mà không qua ứng dụng của bạn. Chỉ cần configure CORS và thêm <code>presigned: true</code> vào upload form.
-- Direct upload: Upload ngay và luôn khi bạn vừa chọn file xong nhằm giảm thời gian chờ đợi. Chỉ cần thêm <code>//= require refile</code> và <code>direct: true</code>
+- Presigned uploads: Upload trực tiếp lên S3 bucket mà không qua ứng dụng của bạn. Chỉ cần configure CORS và thêm <code class="highlighter-rouge">presigned: true</code> vào upload form.
+- Direct upload: Upload ngay và luôn khi bạn vừa chọn file xong nhằm giảm thời gian chờ đợi. Chỉ cần thêm <code class="highlighter-rouge">//= require refile</code> và <code class="highlighter-rouge">direct: true</code>
 - Đặc biệt, đối với những file có dung lượng &gt; 100MB, file được chia nhỏ ra từng phần có dung lượng 5MB, từng phần được upload lên S3 sau đó việc ghép nối cũng được thực hiện tự động (tham khảo thêm <a href="https://aws.amazon.com/blogs/aws/amazon-s3-multipart-upload/">Amazon S3: Multipart Upload</a>). Mình đã tiến hành so sánh việc upload multiple files với Refile như trên và Carrierwave, kết quả là Refile luôn upload nhanh hơn từ 2-3 lần so với Carrierwave (15 files dung lượng khác nhau với tổng dung lượng khoảng 500MB, S3 standard storage, đo bằng tay, bạn nào biết gem gì có thể đo cái performance cho Rails 4 này thì bảo mình với :D)
 - Image processing với mini_magick
 - Các tính năng khác: validate file type, remove file, helper để hiển thị ảnh</p>
@@ -182,15 +182,15 @@
 <p>Một số tính năng Refile còn thiếu và có định hướng phát triển:
 - Upload multiple files directly and normally.
 - Refile luôn truyền file qua app nên nó không thể tạo URLs cho file của bạn được. Bạn có thể thêm CDN hoặc một HTTP cache nằm trên tầng app. Tuy nhiên nếu bạn thực sự cần lấy URL của file thì bạn có thể dùng cách sau:
-- Refile dùng <code>SecureRandom.hex(30)</code> để tạo ra id cho file nhằm tránh trùng lặp, điều này rất tiện cho việc xử lý trong gem tuy nhiên nếu bạn đang viết API và bạn dùng Refile, bạn muốn response là list file URL thì response trông không được đẹp cho lắm :D</p>
+- Refile dùng <code class="highlighter-rouge">SecureRandom.hex(30)</code> để tạo ra id cho file nhằm tránh trùng lặp, điều này rất tiện cho việc xử lý trong gem tuy nhiên nếu bạn đang viết API và bạn dùng Refile, bạn muốn response là list file URL thì response trông không được đẹp cho lắm :D</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">file_url</span>
-  <span class="n">uri</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">to_io</span><span class="o">.</span><span class="n">base_uri</span>
-  <span class="n">scheme</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="n">scheme</span>
-  <span class="n">host</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="n">host</span>
-  <span class="n">request_uri</span> <span class="o">=</span> <span class="n">uri</span><span class="o">.</span><span class="n">request_uri</span>
-  <span class="s2">&quot;</span><span class="si">#{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">#{</span><span class="n">host</span><span class="si">}#{</span><span class="n">request_uri</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="k">end</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">file_url</span>
+  <span class="n">uri</span> <span class="o">=</span> <span class="n">file</span><span class="p">.</span><span class="nf">to_io</span><span class="p">.</span><span class="nf">base_uri</span>
+  <span class="n">scheme</span> <span class="o">=</span> <span class="n">uri</span><span class="p">.</span><span class="nf">scheme</span>
+  <span class="n">host</span> <span class="o">=</span> <span class="n">uri</span><span class="p">.</span><span class="nf">host</span>
+  <span class="n">request_uri</span> <span class="o">=</span> <span class="n">uri</span><span class="p">.</span><span class="nf">request_uri</span>
+  <span class="s2">"</span><span class="si">#{</span><span class="n">scheme</span><span class="si">}</span><span class="s2">://</span><span class="si">#{</span><span class="n">host</span><span class="si">}#{</span><span class="n">request_uri</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span></code></pre></figure>
 
 <p><a href="https://github.com/nhattan/hbc/pull/16/files">Source code</a></p>
 
@@ -264,7 +264,7 @@
       </div>
 
       <div class="footer-col  footer-col-3">
-        <p class="text">Ruby on Rails, concern to the new techs
+        <p class="text">Ruby on Rails
 </p>
       </div>
     </div>

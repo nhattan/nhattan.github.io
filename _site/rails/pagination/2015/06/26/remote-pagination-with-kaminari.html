@@ -68,15 +68,15 @@
 
 <p>According to the document to make ajax links you just add “remote: true” like this:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;%=</span> <span class="n">paginate</span> <span class="vi">@users</span><span class="p">,</span> <span class="ss">remote</span><span class="p">:</span> <span class="kp">true</span> <span class="o">%&gt;</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="sx">%= paginate @users, remote: true %&gt;</span></code></pre></figure>
 
 <p>Crazy simple but it doesn’t work in my case! Maybe the document has not been updated yet.</p>
 
 <p>I have to add this file to make it works:</p>
 
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># index.js.erb</span>
-<span class="err">$</span><span class="p">(</span><span class="s2">&quot;#users&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript render(@users) %&gt;&quot;</span><span class="p">);</span>
-<span class="err">$</span><span class="p">(</span><span class="s2">&quot;#paginator&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">html</span><span class="p">(</span><span class="s2">&quot;&lt;%= escape_javascript(paginate(@users, remote: true)) %&gt;&quot;</span><span class="p">)</span></code></pre></div>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># index.js.erb</span>
+<span class="err">$</span><span class="p">(</span><span class="s2">"#users"</span><span class="p">).</span><span class="nf">html</span><span class="p">(</span><span class="s2">"&lt;%= escape_javascript render(@users) %&gt;"</span><span class="p">);</span>
+<span class="err">$</span><span class="p">(</span><span class="s2">"#paginator"</span><span class="p">).</span><span class="nf">html</span><span class="p">(</span><span class="s2">"&lt;%= escape_javascript(paginate(@users, remote: true)) %&gt;"</span><span class="p">)</span></code></pre></figure>
 
 <p>You can see the view details in this example:</p>
 
@@ -154,7 +154,7 @@
       </div>
 
       <div class="footer-col  footer-col-3">
-        <p class="text">Ruby on Rails, concern to the new techs
+        <p class="text">Ruby on Rails
 </p>
       </div>
     </div>
