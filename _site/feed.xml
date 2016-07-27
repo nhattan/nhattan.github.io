@@ -6,8 +6,8 @@
 </description>
     <link>https://nhattan.github.io/</link>
     <atom:link href="https://nhattan.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 21 Jul 2016 13:09:37 +0700</pubDate>
-    <lastBuildDate>Thu, 21 Jul 2016 13:09:37 +0700</lastBuildDate>
+    <pubDate>Wed, 27 Jul 2016 15:06:59 +0700</pubDate>
+    <lastBuildDate>Wed, 27 Jul 2016 15:06:59 +0700</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -203,25 +203,32 @@
     
       <item>
         <title>Remote pagination with kaminari</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/amatsuda/kaminari&quot;&gt;Kaminari&lt;/a&gt; is an awesome gem to paginate your list view&lt;/p&gt;
+        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/amatsuda/kaminari&quot;&gt;Kaminari (雷)&lt;/a&gt; is a Japanese word meaning “thunder”, is also a popular gem used to paginate in Rails.&lt;/p&gt;
 
-&lt;p&gt;According to the document to make ajax links you just add “remote: true” like this:&lt;/p&gt;
+&lt;p&gt;According to the document to make ajax links you just have to add a parameter like this&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sx&quot;&gt;%= paginate @users, remote: true %&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Crazy simple but it doesn’t work in my case! Maybe the document has not been updated yet.&lt;/p&gt;
+&lt;p&gt;Yeah, crazy simple but it is not enough to make it works out of the box!&lt;/p&gt;
 
-&lt;p&gt;I have to add this file to make it works:&lt;/p&gt;
+&lt;p&gt;So after adding this file, it worked as expected&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;c1&quot;&gt;# index.js.erb&lt;/span&gt;
-&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;#users&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;%= escape_javascript render(@users) %&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;#paginator&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;%= escape_javascript(paginate(@users, remote: true)) %&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;#users&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;%= escape_javascript render(@users) %&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;#paginator).html(&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sx&quot;&gt;%= escape_javascript(paginate(@users, remote: true)) %&amp;gt;&quot;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;You can see the view details in this example:&lt;/p&gt;
+&lt;p&gt;With &lt;code class=&quot;highlighter-rouge&quot;&gt;users&lt;/code&gt; is the id of users list.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/amatsuda/kaminari_example/tree/ajax/app/views/users&quot;&gt;Kaminari example&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Remember to have &lt;code class=&quot;highlighter-rouge&quot;&gt;jquery-rails&lt;/code&gt; gem in your application and your &lt;code class=&quot;highlighter-rouge&quot;&gt;application.js&lt;/code&gt; having this like default settings:&lt;/p&gt;
 
-&lt;p&gt;Hope this can help you!&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;c1&quot;&gt;// application.js&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//= require jquery&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;//= require jquery_ujs&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;You can see the view details in this example:
+&lt;a href=&quot;https://github.com/amatsuda/kaminari_example/tree/ajax/app/views/users&quot;&gt;Kaminari ajax example&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Hope this helps!&lt;/p&gt;
 </description>
         <pubDate>Fri, 26 Jun 2015 23:10:00 +0700</pubDate>
         <link>https://nhattan.github.io/rails/pagination/2015/06/26/remote-pagination-with-kaminari.html</link>

@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Remote pagination with kaminari</title>
-  <meta name="description" content="Kaminari is an awesome gem to paginate your list view">
+  <meta name="description" content="Kaminari (雷) is a Japanese word meaning “thunder”, is also a popular gem used to paginate in Rails.">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://nhattan.github.io/rails/pagination/2015/06/26/remote-pagination-with-kaminari.html">
@@ -64,25 +64,32 @@
   </header>
 
   <article class="post-content">
-    <p><a href="https://github.com/amatsuda/kaminari">Kaminari</a> is an awesome gem to paginate your list view</p>
+    <p><a href="https://github.com/amatsuda/kaminari">Kaminari (雷)</a> is a Japanese word meaning “thunder”, is also a popular gem used to paginate in Rails.</p>
 
-<p>According to the document to make ajax links you just add “remote: true” like this:</p>
+<p>According to the document to make ajax links you just have to add a parameter like this</p>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="sx">%= paginate @users, remote: true %&gt;</span></code></pre></figure>
 
-<p>Crazy simple but it doesn’t work in my case! Maybe the document has not been updated yet.</p>
+<p>Yeah, crazy simple but it is not enough to make it works out of the box!</p>
 
-<p>I have to add this file to make it works:</p>
+<p>So after adding this file, it worked as expected</p>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># index.js.erb</span>
-<span class="err">$</span><span class="p">(</span><span class="s2">"#users"</span><span class="p">).</span><span class="nf">html</span><span class="p">(</span><span class="s2">"&lt;%= escape_javascript render(@users) %&gt;"</span><span class="p">);</span>
-<span class="err">$</span><span class="p">(</span><span class="s2">"#paginator"</span><span class="p">).</span><span class="nf">html</span><span class="p">(</span><span class="s2">"&lt;%= escape_javascript(paginate(@users, remote: true)) %&gt;"</span><span class="p">)</span></code></pre></figure>
+<span class="err">$</span><span class="p">(</span><span class="s2">"#users"</span><span class="p">).</span><span class="nf">html</span><span class="p">(</span><span class="s2">"&lt;%= escape_javascript render(@users) %&gt;"</span><span class="p">)</span>
+<span class="err">$</span><span class="p">(</span><span class="s2">"#paginator).html("</span><span class="o">&lt;</span><span class="sx">%= escape_javascript(paginate(@users, remote: true)) %&gt;")</span></code></pre></figure>
 
-<p>You can see the view details in this example:</p>
+<p>With <code class="highlighter-rouge">users</code> is the id of users list.</p>
 
-<p><a href="https://github.com/amatsuda/kaminari_example/tree/ajax/app/views/users">Kaminari example</a></p>
+<p>Remember to have <code class="highlighter-rouge">jquery-rails</code> gem in your application and your <code class="highlighter-rouge">application.js</code> having this like default settings:</p>
 
-<p>Hope this can help you!</p>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// application.js</span>
+<span class="c1">//= require jquery</span>
+<span class="c1">//= require jquery_ujs</span></code></pre></figure>
+
+<p>You can see the view details in this example:
+<a href="https://github.com/amatsuda/kaminari_example/tree/ajax/app/views/users">Kaminari ajax example</a></p>
+
+<p>Hope this helps!</p>
 
   </article>
 
