@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Import, export CSV with Ruby (part 1)</title>
-  <meta name="description" content="Import, export CSV is one of the most popular feature that we usually need for our project.">
+  <meta name="description" content="Import, export CSV is one of the most popular features in a website.">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://nhattan.github.io/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html">
@@ -64,15 +64,17 @@
   </header>
 
   <article class="post-content">
-    <p>Import, export CSV is one of the most popular feature that we usually need for our project.</p>
+    <p>Import, export CSV is one of the most popular features in a website.</p>
 
-<p>It’s very simple and I’ll show you how to make it just with Ruby CSV library.</p>
+<p>It’s so simple to use Ruby CSV library so we’ll utilize it to build the feature.</p>
 
-<h1 id="say-hi-to-export">Say hi to Export</h1>
+<p>In this post, I’ll show you how to do it in a Ruby on Rails application.</p>
+
+<h1 id="export-csv">Export CSV</h1>
 
 <h2 id="route">Route</h2>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="n">resources</span> <span class="ss">:csv_exports</span><span class="p">,</span> <span class="ss">only: </span><span class="p">[</span><span class="ss">:create</span><span class="p">]</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="n">resource</span> <span class="ss">:csv_export</span><span class="p">,</span> <span class="ss">only: </span><span class="p">[</span><span class="ss">:create</span><span class="p">]</span></code></pre></figure>
 
 <h2 id="controller">Controller</h2>
 
@@ -112,8 +114,8 @@
 
 <h2 id="view">View</h2>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># trigger button</span>
-<span class="o">&lt;</span><span class="sx">%= link_to "Export", "#", class: %w(btn search-form-toggle), data: {target: "export-form"} %&gt;</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"># export button
+<span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">"Export"</span><span class="p">,</span> <span class="s2">"#"</span><span class="p">,</span> <span class="ss">class: </span><span class="sx">%w(btn search-form-toggle)</span><span class="p">,</span> <span class="ss">data: </span><span class="p">{</span><span class="ss">target: </span><span class="s2">"export-form"</span><span class="p">}</span> <span class="cp">%&gt;</span></code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// js for search-form-toggle</span>
 <span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
@@ -125,32 +127,34 @@
   <span class="p">});</span>
 <span class="p">});</span></code></pre></figure>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># _export_form.html.erb</span>
-<span class="o">&lt;</span><span class="sx">%= form_tag csv_exports_path, method: :post, multipart: true, id: "export-form", class: "search-form" do %&gt;
-  &lt;%=</span> <span class="n">hidden_field_tag</span> <span class="ss">:model</span><span class="p">,</span> <span class="n">model</span> <span class="sx">%&gt;
-  &lt;% @search = model.search params[:q] %&gt;</span>
-  <span class="o">&lt;</span><span class="sx">%= hidden_field_tag :object_ids, @search.result.ids %&gt;
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"># _export_form.html.erb
+<span class="cp">&lt;%=</span> <span class="n">form_tag</span> <span class="n">csv_export_path</span><span class="p">,</span> <span class="ss">method: :post</span><span class="p">,</span> <span class="ss">multipart: </span><span class="kp">true</span><span class="p">,</span> <span class="ss">id: </span><span class="s2">"export-form"</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">"search-form"</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">hidden_field_tag</span> <span class="ss">:model</span><span class="p">,</span> <span class="n">model</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%</span> <span class="vi">@search</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">search</span> <span class="n">params</span><span class="p">[</span><span class="ss">:q</span><span class="p">]</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="n">hidden_field_tag</span> <span class="ss">:object_ids</span><span class="p">,</span> <span class="vi">@search</span><span class="p">.</span><span class="nf">result</span><span class="p">.</span><span class="nf">ids</span> <span class="cp">%&gt;</span>
 
-  &lt;div class=</span><span class="s2">"text-center"</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="sx">%= submit_tag "Submit", class: "btn btn-primary" %&gt;
-  &lt;/div&gt;
-&lt;% end %&gt;</span></code></pre></figure>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"text-center"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="n">submit_tag</span> <span class="s2">"Submit"</span><span class="p">,</span> <span class="ss">class: </span><span class="s2">"btn btn-primary"</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span></code></pre></figure>
 
-<p>Here, I’m using <a href="https://github.com/activerecord-hackery/ransack">ransack</a> as object searching so you can see:</p>
+<p>As you can see, I’m using <a href="https://github.com/activerecord-hackery/ransack">ransack</a> as object searching:</p>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="o">&lt;</span><span class="sx">% @search </span><span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">search</span> <span class="n">params</span><span class="p">[</span><span class="ss">:q</span><span class="p">]</span> <span class="o">%&gt;</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-erb" data-lang="erb"><span class="cp">&lt;%</span> <span class="vi">@search</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">search</span> <span class="n">params</span><span class="p">[</span><span class="ss">:q</span><span class="p">]</span> <span class="cp">%&gt;</span></code></pre></figure>
 
-<p>It just exports records of search result. If you want to export all exist records in database, you can remove all the codes that relate to <code class="highlighter-rouge">object_ids</code> in this post.</p>
+<p>It just exports records of search result. If you want to export all exist records in database, remove all the codes that relate to <code class="highlighter-rouge">object_ids</code> in this post.</p>
 
-<p>I recommend to use this line of code for importing purpose:</p>
+<p>I recommend using this line of code for importing:</p>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">exceptions</span> <span class="o">=</span> <span class="sx">%w( created_at updated_at )</span> <span class="c1"># if you don't need to export timestamps</span></code></pre></figure>
 
-<p>Because when you import, it means that you create new record and you don’t need to use the timestamps in csv file anymore.</p>
+<p>Because when you import, it means that you create new record and you don’t need to use the timestamps in CSV file anymore.</p>
 
-<h1 id="say-hi-to-import">Say hi to Import</h1>
+<h1 id="import-csv">Import CSV</h1>
 
-<p>It’s easy, right? See part 2 here:</p>
+<p>It’s so easy, right? I told you :)</p>
+
+<p>Let’s go to part 2:</p>
 
 <p><a href="/rails/csv/2015/07/29/import-export-csv-with-ruby-part-2.html">Import, export CSV with Ruby (part 2)</a></p>
 

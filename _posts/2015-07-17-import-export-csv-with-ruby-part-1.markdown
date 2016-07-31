@@ -5,16 +5,18 @@ date:   2015-07-17 23:22:00
 categories: rails csv
 ---
 
-Import, export CSV is one of the most popular feature that we usually need for our project.
+Import, export CSV is one of the most popular features in a website.
 
-It's very simple and I'll show you how to make it just with Ruby CSV library.
+It's so simple to use Ruby CSV library so we'll utilize it to build the feature.
 
-# Say hi to Export
+In this post, I'll show you how to do it in a Ruby on Rails application.
+
+# Export CSV
 
 ## Route
 
 {% highlight ruby %}
-  resources :csv_exports, only: [:create]
+  resource :csv_export, only: [:create]
 {% endhighlight %}
 
 ## Controller
@@ -57,8 +59,8 @@ end
 
 ## View
 
-{% highlight ruby %}
-# trigger button
+{% highlight erb %}
+# export button
 <%= link_to "Export", "#", class: %w(btn search-form-toggle), data: {target: "export-form"} %>
 {% endhighlight %}
 
@@ -74,9 +76,9 @@ $(function() {
 });
 {% endhighlight %}
 
-{% highlight ruby %}
+{% highlight erb %}
 # _export_form.html.erb
-<%= form_tag csv_exports_path, method: :post, multipart: true, id: "export-form", class: "search-form" do %>
+<%= form_tag csv_export_path, method: :post, multipart: true, id: "export-form", class: "search-form" do %>
   <%= hidden_field_tag :model, model %>
   <% @search = model.search params[:q] %>
   <%= hidden_field_tag :object_ids, @search.result.ids %>
@@ -87,24 +89,26 @@ $(function() {
 <% end %>
 {% endhighlight %}
 
-Here, I'm using [ransack](https://github.com/activerecord-hackery/ransack) as object searching so you can see:
+As you can see, I'm using [ransack](https://github.com/activerecord-hackery/ransack) as object searching:
 
-{% highlight ruby %}
+{% highlight erb %}
 <% @search = model.search params[:q] %>
 {% endhighlight %}
 
-It just exports records of search result. If you want to export all exist records in database, you can remove all the codes that relate to ```object_ids``` in this post.
+It just exports records of search result. If you want to export all exist records in database, remove all the codes that relate to ```object_ids``` in this post.
 
-I recommend to use this line of code for importing purpose:
+I recommend using this line of code for importing:
 
 {% highlight ruby %}
 exceptions = %w( created_at updated_at ) # if you don't need to export timestamps
 {% endhighlight %}
 
-Because when you import, it means that you create new record and you don't need to use the timestamps in csv file anymore.
+Because when you import, it means that you create new record and you don't need to use the timestamps in CSV file anymore.
 
-# Say hi to Import
+# Import CSV
 
-It's easy, right? See part 2 here:
+It's so easy, right? I told you :)
+
+Let's go to part 2:
 
 [Import, export CSV with Ruby (part 2)](/rails/csv/2015/07/29/import-export-csv-with-ruby-part-2.html)

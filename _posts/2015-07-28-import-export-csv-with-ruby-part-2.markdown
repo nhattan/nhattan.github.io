@@ -5,23 +5,23 @@ date:   2015-07-28 23:00:00
 categories: rails csv
 ---
 
-I'm glad to see you again.
+So glad to see you again.
 
-The importing part is a little longer than the [exporting part](/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html) but I guarantee it's still very simple!
+This post is a little longer than the [Part 1](/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html) but still very simple.
 
-# Say hi to Import
+# Import
 
 ## Route
 
 {% highlight ruby %}
-  resources :csv_imports, only: [:create]
+  resource :csv_import, only: [:create]
 {% endhighlight %}
 
 ## Controller
 
 {% highlight ruby %}
 class CsvImportsController < ApplicationController
-  before_action :check_params, only: :create
+  before_action :validate_model_and_file, only: :create
 
   def create
     begin
@@ -35,7 +35,7 @@ class CsvImportsController < ApplicationController
   end
 
   private
-  def check_params
+  def validate_model_and_file
     @model = params[:model].safe_constantize
     @file = params[:file]
     unless @model && @file.present?
@@ -59,14 +59,14 @@ end
 
 ## View
 
-{% highlight ruby %}
-# trigger button
+{% highlight erb %}
+# import button
 <%= link_to "Import", "#", class: %w(btn search-form-toggle), data: {target: "import-form"} %>
 {% endhighlight %}
 
-{% highlight ruby %}
+{% highlight erb %}
 # _import_form.html.erb
-<%= form_tag csv_imports_path, method: :post, multipart: true, id: "import-form", class: "search-form form-inline" do %>
+<%= form_tag csv_import_path, method: :post, multipart: true, id: "import-form", class: "search-form form-inline" do %>
   <div>
     <%= label_tag :file, "CSV: " %>
     <%= file_field_tag :file %>
@@ -77,15 +77,14 @@ end
 {% endhighlight %}
 
 
-Here, ```headers: true``` means it treats first row as the CSV's header. When the CSV file has header you can easily access the content by the header, eg: ```row_hash["id"]```, where id is the first column of the CSV file.
+```headers: true``` means it treats the first row as the CSV's header. If the CSV file has header you can easily read the content by the header, eg: ```row_hash["id"]```, where ```id``` is the first column of the CSV file.
 
-The CSV file contain the id column so the ```import_csv``` will update the record if it do exist. Otherwise, it will create a brand new record.
+If the CSV file contains the ```id``` column, ```import_csv``` will update the record if it do exist. Otherwise, it will create a brand new record.
 
-In the ```import_csv``` method I use the bang method like ```update_attributes!``` and ```create!``` so it will raise the error if there's any problem with the updating and creating record.
+In ```import_csv``` I use the bang method ```update_attributes!``` and ```create!```, it will raise the error if there's any problem in updating and creating record.
 
-Then I puts the ```import_csv``` into a transaction so tt'll create/update all records or do nothing (rollback) if any error is raised inside the transaction, and we rescue the error by redirecting back with a flash message.
+I put ```import_csv``` into a transaction so it'll create/update all records or do nothing (rollback) if any error is raised inside the transaction, and we can rescue the error by redirecting back with a flash message.
 
-If you'd like to know the exact error which make the transaction rolled back, you can ```rescue => e```, then ```puts e``` to get the detail error or use any debug tool such as [byebug](https://github.com/deivid-rodriguez/byebug), [pry-rails](https://github.com/rweng/pry-rails).
+If you'd like to see the exact error was raised inside the transaction, you can use ```rescue => e``` instead of ```rescue``` in the controller, then ```puts e``` to get the error detail or use any debug tool such as [byebug](https://github.com/deivid-rodriguez/byebug) or [pry-rails](https://github.com/rweng/pry-rails).
 
-
-Hope it's useful!
+Hope this helps. Peace out!
