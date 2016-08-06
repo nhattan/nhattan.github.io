@@ -5,9 +5,9 @@ date:   2015-07-28 23:00:00
 categories: rails csv
 ---
 
-So glad to see you again.
+Hey, so glad to see you again!
 
-This post is a little longer than the [Part 1](/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html) but still very simple.
+This post is a little bit longer than the [Part 1](/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html) but still very simple and it just takes you about 10 minutes.
 
 # Import
 
@@ -85,6 +85,6 @@ In ```import_csv``` I use the bang method ```update_attributes!``` and ```create
 
 I put ```import_csv``` into a transaction so it'll create/update all records or do nothing (rollback) if any error is raised inside the transaction, and we can rescue the error by redirecting back with a flash message.
 
-If you'd like to see the exact error was raised inside the transaction, you can use ```rescue => e``` instead of ```rescue``` in the controller, then ```puts e``` to get the error detail or use any debug tool such as [byebug](https://github.com/deivid-rodriguez/byebug) or [pry-rails](https://github.com/rweng/pry-rails).
+If you'd like to see what error was raised inside the transaction, you can use ```rescue => e``` instead of ```rescue``` in the controller, then ```puts e``` to get the error detail or use any debug tool such as [byebug](https://github.com/deivid-rodriguez/byebug) or [pry-rails](https://github.com/rweng/pry-rails).
 
 Hope this helps. Peace out!

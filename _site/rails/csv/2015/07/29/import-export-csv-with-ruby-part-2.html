@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Import, export CSV with Ruby (part 2)</title>
-  <meta name="description" content="So glad to see you again.">
+  <meta name="description" content="Hey, so glad to see you again!">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://nhattan.github.io/rails/csv/2015/07/29/import-export-csv-with-ruby-part-2.html">
@@ -64,9 +64,9 @@
   </header>
 
   <article class="post-content">
-    <p>So glad to see you again.</p>
+    <p>Hey, so glad to see you again!</p>
 
-<p>This post is a little longer than the <a href="/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html">Part 1</a> but still very simple.</p>
+<p>This post is a little bit longer than the <a href="/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html">Part 1</a> but still very simple and it just takes you about 10 minutes.</p>
 
 <h1 id="import">Import</h1>
 
@@ -135,7 +135,7 @@
 
 <p>I put <code class="highlighter-rouge">import_csv</code> into a transaction so it’ll create/update all records or do nothing (rollback) if any error is raised inside the transaction, and we can rescue the error by redirecting back with a flash message.</p>
 
-<p>If you’d like to see the exact error was raised inside the transaction, you can use <code class="highlighter-rouge">rescue =&gt; e</code> instead of <code class="highlighter-rouge">rescue</code> in the controller, then <code class="highlighter-rouge">puts e</code> to get the error detail or use any debug tool such as <a href="https://github.com/deivid-rodriguez/byebug">byebug</a> or <a href="https://github.com/rweng/pry-rails">pry-rails</a>.</p>
+<p>If you’d like to see what error was raised inside the transaction, you can use <code class="highlighter-rouge">rescue =&gt; e</code> instead of <code class="highlighter-rouge">rescue</code> in the controller, then <code class="highlighter-rouge">puts e</code> to get the error detail or use any debug tool such as <a href="https://github.com/deivid-rodriguez/byebug">byebug</a> or <a href="https://github.com/rweng/pry-rails">pry-rails</a>.</p>
 
 <p>Hope this helps. Peace out!</p>
 

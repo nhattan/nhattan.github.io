@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Import, export CSV with Ruby (part 1)</title>
-  <meta name="description" content="Import, export CSV is one of the most popular features in a website.">
+  <meta name="description" content="CSV is a common data exchange format that is widely supported in many applications. And import, export CSV is one of the most common features in applications.">
 
   <link rel="stylesheet" href="/css/main.css">
   <link rel="canonical" href="https://nhattan.github.io/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html">
@@ -64,13 +64,13 @@
   </header>
 
   <article class="post-content">
-    <p>Import, export CSV is one of the most popular features in a website.</p>
+    <p>CSV is a common data exchange format that is widely supported in many applications. And import, export CSV is one of the most common features in applications.</p>
 
-<p>It’s so simple to use Ruby CSV library so we’ll utilize it to build the feature.</p>
+<p>It’s so simple to build this feature by using Ruby CSV library in a Ruby on Rails application.</p>
 
-<p>In this post, I’ll show you how to do it in a Ruby on Rails application.</p>
+<p>In this post, I’ll show you how to import records from CSV and export records to CSV on any resources.</p>
 
-<h1 id="export-csv">Export CSV</h1>
+<h1 id="export">Export</h1>
 
 <h2 id="route">Route</h2>
 
@@ -150,13 +150,10 @@
 
 <p>Because when you import, it means that you create new record and you don’t need to use the timestamps in CSV file anymore.</p>
 
-<h1 id="import-csv">Import CSV</h1>
+<p>So we’ve done with exporting records to CSV. It’s so easy, right? I told you :). You also can see the snippet used to export records here, it’s pretty simple <a href="https://gorails.com/episodes/export-to-csv">https://gorails.com/episodes/export-to-csv</a></p>
 
-<p>It’s so easy, right? I told you :)</p>
-
-<p>Let’s go to part 2:</p>
-
-<p><a href="/rails/csv/2015/07/29/import-export-csv-with-ruby-part-2.html">Import, export CSV with Ruby (part 2)</a></p>
+<p>Let’s go to part 2:
+<a href="/rails/csv/2015/07/29/import-export-csv-with-ruby-part-2.html">Import, export CSV with Ruby (part 2)</a></p>
 
   </article>
 

@@ -5,13 +5,13 @@ date:   2015-07-17 23:22:00
 categories: rails csv
 ---
 
-Import, export CSV is one of the most popular features in a website.
+CSV is a common data exchange format that is widely supported in many applications. And import, export CSV is one of the most common features in applications.
 
-It's so simple to use Ruby CSV library so we'll utilize it to build the feature.
+It's so simple to build this feature by using Ruby CSV library in a Ruby on Rails application.
 
-In this post, I'll show you how to do it in a Ruby on Rails application.
+In this post, I'll show you how to import records from CSV and export records to CSV on any resources.
 
-# Export CSV
+# Export
 
 ## Route
 
@@ -105,10 +105,8 @@ exceptions = %w( created_at updated_at ) # if you don't need to export timestamp
 
 Because when you import, it means that you create new record and you don't need to use the timestamps in CSV file anymore.
 
-# Import CSV
 
-It's so easy, right? I told you :)
+So we've done with exporting records to CSV. It's so easy, right? I told you :). You also can see the snippet used to export records here, it's pretty simple [https://gorails.com/episodes/export-to-csv](https://gorails.com/episodes/export-to-csv)
 
 Let's go to part 2:
-
 [Import, export CSV with Ruby (part 2)](/rails/csv/2015/07/29/import-export-csv-with-ruby-part-2.html)

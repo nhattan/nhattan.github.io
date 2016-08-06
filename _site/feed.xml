@@ -6,15 +6,15 @@
 </description>
     <link>https://nhattan.github.io/</link>
     <atom:link href="https://nhattan.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 31 Jul 2016 14:56:29 +0700</pubDate>
-    <lastBuildDate>Sun, 31 Jul 2016 14:56:29 +0700</lastBuildDate>
+    <pubDate>Sat, 06 Aug 2016 11:06:07 +0700</pubDate>
+    <lastBuildDate>Sat, 06 Aug 2016 11:06:07 +0700</lastBuildDate>
     <generator>Jekyll v3.2.0</generator>
     
       <item>
         <title>Import, export CSV with Ruby (part 2)</title>
-        <description>&lt;p&gt;So glad to see you again.&lt;/p&gt;
+        <description>&lt;p&gt;Hey, so glad to see you again!&lt;/p&gt;
 
-&lt;p&gt;This post is a little longer than the &lt;a href=&quot;/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html&quot;&gt;Part 1&lt;/a&gt; but still very simple.&lt;/p&gt;
+&lt;p&gt;This post is a little bit longer than the &lt;a href=&quot;/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html&quot;&gt;Part 1&lt;/a&gt; but still very simple and it just takes you about 10 minutes.&lt;/p&gt;
 
 &lt;h1 id=&quot;import&quot;&gt;Import&lt;/h1&gt;
 
@@ -83,7 +83,7 @@
 
 &lt;p&gt;I put &lt;code class=&quot;highlighter-rouge&quot;&gt;import_csv&lt;/code&gt; into a transaction so it’ll create/update all records or do nothing (rollback) if any error is raised inside the transaction, and we can rescue the error by redirecting back with a flash message.&lt;/p&gt;
 
-&lt;p&gt;If you’d like to see the exact error was raised inside the transaction, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;rescue =&amp;gt; e&lt;/code&gt; instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;rescue&lt;/code&gt; in the controller, then &lt;code class=&quot;highlighter-rouge&quot;&gt;puts e&lt;/code&gt; to get the error detail or use any debug tool such as &lt;a href=&quot;https://github.com/deivid-rodriguez/byebug&quot;&gt;byebug&lt;/a&gt; or &lt;a href=&quot;https://github.com/rweng/pry-rails&quot;&gt;pry-rails&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;If you’d like to see what error was raised inside the transaction, you can use &lt;code class=&quot;highlighter-rouge&quot;&gt;rescue =&amp;gt; e&lt;/code&gt; instead of &lt;code class=&quot;highlighter-rouge&quot;&gt;rescue&lt;/code&gt; in the controller, then &lt;code class=&quot;highlighter-rouge&quot;&gt;puts e&lt;/code&gt; to get the error detail or use any debug tool such as &lt;a href=&quot;https://github.com/deivid-rodriguez/byebug&quot;&gt;byebug&lt;/a&gt; or &lt;a href=&quot;https://github.com/rweng/pry-rails&quot;&gt;pry-rails&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Hope this helps. Peace out!&lt;/p&gt;
 </description>
@@ -100,13 +100,13 @@
     
       <item>
         <title>Import, export CSV with Ruby (part 1)</title>
-        <description>&lt;p&gt;Import, export CSV is one of the most popular features in a website.&lt;/p&gt;
+        <description>&lt;p&gt;CSV is a common data exchange format that is widely supported in many applications. And import, export CSV is one of the most common features in applications.&lt;/p&gt;
 
-&lt;p&gt;It’s so simple to use Ruby CSV library so we’ll utilize it to build the feature.&lt;/p&gt;
+&lt;p&gt;It’s so simple to build this feature by using Ruby CSV library in a Ruby on Rails application.&lt;/p&gt;
 
-&lt;p&gt;In this post, I’ll show you how to do it in a Ruby on Rails application.&lt;/p&gt;
+&lt;p&gt;In this post, I’ll show you how to import records from CSV and export records to CSV on any resources.&lt;/p&gt;
 
-&lt;h1 id=&quot;export-csv&quot;&gt;Export CSV&lt;/h1&gt;
+&lt;h1 id=&quot;export&quot;&gt;Export&lt;/h1&gt;
 
 &lt;h2 id=&quot;route&quot;&gt;Route&lt;/h2&gt;
 
@@ -186,13 +186,10 @@
 
 &lt;p&gt;Because when you import, it means that you create new record and you don’t need to use the timestamps in CSV file anymore.&lt;/p&gt;
 
-&lt;h1 id=&quot;import-csv&quot;&gt;Import CSV&lt;/h1&gt;
+&lt;p&gt;So we’ve done with exporting records to CSV. It’s so easy, right? I told you :). You also can see the snippet used to export records here, it’s pretty simple &lt;a href=&quot;https://gorails.com/episodes/export-to-csv&quot;&gt;https://gorails.com/episodes/export-to-csv&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;It’s so easy, right? I told you :)&lt;/p&gt;
-
-&lt;p&gt;Let’s go to part 2:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;/rails/csv/2015/07/29/import-export-csv-with-ruby-part-2.html&quot;&gt;Import, export CSV with Ruby (part 2)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Let’s go to part 2:
+&lt;a href=&quot;/rails/csv/2015/07/29/import-export-csv-with-ruby-part-2.html&quot;&gt;Import, export CSV with Ruby (part 2)&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 18 Jul 2015 06:22:00 +0700</pubDate>
         <link>https://nhattan.github.io/rails/csv/2015/07/18/import-export-csv-with-ruby-part-1.html</link>
